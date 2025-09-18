@@ -31,4 +31,5 @@ public class Payment {
     @JoinColumn(name = "enrollment_id")
     private Enrollment enrollment;
     
+    private String paymentMode;
 }

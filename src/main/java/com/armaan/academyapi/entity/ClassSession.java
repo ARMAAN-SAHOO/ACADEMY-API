@@ -42,4 +42,10 @@ public class ClassSession {
 
     @OneToMany(mappedBy = "session")
     private List<Exam> exams;
+
+    @ManyToOne
+    @JoinColumn(name = "timetable_id")
+    private TimeTable timetable;
+
+        private Integer slotIndex;  
 }

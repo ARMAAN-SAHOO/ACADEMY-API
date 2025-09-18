@@ -35,8 +35,6 @@ public class Exam {
 
     private String name;
 
-    private String subject;
-
     private LocalDate date;
     
     private Integer totalMarks;

@@ -32,6 +32,6 @@ public class Batch {
     @OneToMany(mappedBy = "batch")
     private List<Exam> exams;
 
-    @OneToMany
+    @OneToMany(mappedBy ="batch")
     private List<Attendance> attendances;
 }
