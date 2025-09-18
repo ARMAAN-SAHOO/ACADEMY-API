@@ -1,0 +1,9 @@
+package com.armaan.academyapi.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.armaan.academyapi.entity.ClassSession;
+
+public interface ClassSessionRepository extends JpaRepository<ClassSession,Long>{
+
+}

@@ -1,0 +1,9 @@
+package com.armaan.academyapi.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.armaan.academyapi.entity.Exam;
+
+public interface ExamRepository extends JpaRepository<Exam,Long>{
+
+}
