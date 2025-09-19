@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.entity.Course;
-import com.armaan.academyapi.entity.Teacher;
 import com.armaan.academyapi.repository.CourseRepository;
 import com.armaan.academyapi.service.CourseService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,14 +39,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public Course updateCourse(Long courseId, Course updatedCourse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCourse'");
-    }
 
-    @Override
-    public List<Teacher> getTeachersForCourse(Long courseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTeachersForCourse'");
+        Course course=courseRepository.findById(courseId)
+                    .orElseThrow(()->new RuntimeException("Course Not Found"));
+
+        course.setName(updatedCourse.getName());
+        course.setDescription(updatedCourse.getDescription());
+
+        return course;
     }
 }

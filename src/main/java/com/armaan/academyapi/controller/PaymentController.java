@@ -3,7 +3,6 @@ package com.armaan.academyapi.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,7 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<Payment> create(@RequestBody Payment payment) {
-        return ResponseEntity.ok(paymentService.createPayment(payment));
+        return ResponseEntity.ok(paymentService.recordPayment(payment));
     }
 
     @GetMapping("/{id}")
@@ -35,11 +34,5 @@ public class PaymentController {
     @GetMapping
     public ResponseEntity<List<Payment>> getAll() {
         return ResponseEntity.ok(paymentService.getAllPayments());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        paymentService.deletePayment(id);
-        return ResponseEntity.noContent().build();
     }
 }

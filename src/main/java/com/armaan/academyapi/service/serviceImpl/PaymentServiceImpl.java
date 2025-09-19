@@ -21,26 +21,24 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByStudent(Long studentId) {
-        return paymentRepository.findByStudentId(studentId);
+    public List<Payment> getPaymentsForStudent(Long studentId) {
+        return paymentRepository.findAllByEnrollmentStudentStudentId(studentId);
     }
 
     @Override
-    public Payment getPayment(Long paymentId) {
+    public Payment getPaymentById(Long paymentId) {
         return paymentRepository.findById(paymentId)
                 .orElseThrow(()-> new RuntimeException("Payment not found"));
     }
 
     @Override
     public List<Payment> getPaymentsForEnrollment(Long enrollmentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPaymentsForEnrollment'");
+        return paymentRepository.findAllByEnrollmentEnrollmentId(enrollmentId);
     }
 
     @Override
-    public List<Payment> getPaymentsForStudent(Long studentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPaymentsForStudent'");
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
     }
 }
 

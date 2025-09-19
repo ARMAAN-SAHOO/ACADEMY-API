@@ -2,7 +2,6 @@ package com.armaan.academyapi.service;
 
 import java.util.List;
 
-import com.armaan.academyapi.entity.Course;
 import com.armaan.academyapi.entity.Teacher;
 
 public interface TeacherService {
@@ -12,8 +11,6 @@ public interface TeacherService {
     Teacher updateTeacher(Long teacherId, Teacher updatedTeacher);
     void deleteTeacher(Long teacherId);
 
-    // extras
-    List<Course> getCoursesTaught(Long teacherId);
 }
 
 

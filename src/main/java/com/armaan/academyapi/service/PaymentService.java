@@ -6,7 +6,8 @@ import com.armaan.academyapi.entity.Payment;
 
 public interface PaymentService {
     Payment recordPayment(Payment payment);
-    Payment getPayment(Long paymentId);
+    Payment getPaymentById(Long paymentId);
+    List<Payment> getAllPayments();
     List<Payment> getPaymentsForEnrollment(Long enrollmentId);
     List<Payment> getPaymentsForStudent(Long studentId);
 }

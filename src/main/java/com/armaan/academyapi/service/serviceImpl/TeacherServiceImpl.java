@@ -3,8 +3,6 @@ package com.armaan.academyapi.service.serviceImpl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.armaan.academyapi.entity.Course;
 import com.armaan.academyapi.entity.Teacher;
 import com.armaan.academyapi.repository.TeacherRepository;
 import com.armaan.academyapi.service.TeacherService;
@@ -40,13 +38,11 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher updateTeacher(Long teacherId, Teacher updatedTeacher) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTeacher'");
-    }
 
-    @Override
-    public List<Course> getCoursesTaught(Long teacherId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCoursesTaught'");
+        Teacher teacher=teacherRepository.findById(teacherId)
+                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
+        
+        teacher.setContact(updatedTeacher.getContact());
+        return teacher;
     }
 }
