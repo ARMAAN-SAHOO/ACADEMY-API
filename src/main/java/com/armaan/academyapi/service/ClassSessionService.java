@@ -11,6 +11,6 @@ public interface ClassSessionService {
     List<ClassSession> getSessionsByBatch(Long batchId);
     List<ClassSession> getSessionsByDate(LocalDate date);
     List<ClassSession> getSessions(Long batchId, LocalDate date);
-    void deleteSession(Long sessionId);
+    List<ClassSession> getAllSessions();
 }
 

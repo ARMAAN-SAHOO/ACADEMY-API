@@ -3,7 +3,6 @@ package com.armaan.academyapi.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,22 +23,16 @@ public class ClassSessionController {
 
     @PostMapping
     public ResponseEntity<ClassSession> create(@RequestBody ClassSession session) {
-        return ResponseEntity.ok(classSessionService.createClassSession(session));
+        return ResponseEntity.ok(classSessionService.createSession(session));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClassSession> get(@PathVariable Long id) {
-        return ResponseEntity.ok(classSessionService.getClassSessionById(id));
+        return ResponseEntity.ok(classSessionService.getSessionById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<ClassSession>> getAll() {
-        return ResponseEntity.ok(classSessionService.getAllClassSessions());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        classSessionService.deleteClassSession(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(classSessionService.getAllSessions());
     }
 }

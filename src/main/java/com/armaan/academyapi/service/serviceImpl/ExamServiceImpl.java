@@ -29,11 +29,16 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<Exam> getExamsByBatch(Long batchId) {
-        return examRepository.findByBatchId(batchId);
+        return examRepository.findAllByBatchBatchId(batchId);
     }
 
     @Override
     public void deleteExam(Long examId) {
         examRepository.deleteById(examId);
+    }
+
+    @Override
+    public List<Exam> getAllExams() {
+        return examRepository.findAll();
     }
 }

@@ -34,13 +34,17 @@ public class ClassSessionServiceImpl implements ClassSessionService {
     }
 
     @Override
-    public void deleteSession(Long sessionId) {
-        sessionRepository.deleteById(sessionId);
+    public List<ClassSession> getSessionsByDate(LocalDate date) {
+        return sessionRepository.findAllByDate(date);
     }
 
     @Override
-    public List<ClassSession> getSessionsByDate(LocalDate date) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSessionsByDate'");
+    public List<ClassSession> getSessions(Long batchId, LocalDate date) {
+        return sessionRepository.findAllByBatchBatchIdAndDate(batchId,date);
+    }
+
+    @Override
+    public List<ClassSession> getAllSessions() {
+        return sessionRepository.findAll();
     }
 }

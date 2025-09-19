@@ -9,5 +9,6 @@ public interface ExamService {
     Exam getExamById(Long examId);
     List<Exam> getExamsByBatch(Long batchId);
     void deleteExam(Long examId);
+    List<Exam> getAllExams();
 }
 

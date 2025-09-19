@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.armaan.academyapi.entity.Exam;
-import com.armaan.academyapi.entity.Result;
 import com.armaan.academyapi.service.ExamService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,10 +41,5 @@ public class ExamController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         examService.deleteExam(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}/results")
-    public ResponseEntity<List<Result>> getResults(@PathVariable Long id) {
-        return ResponseEntity.ok(examService.getExamResults(id));
     }
 }
