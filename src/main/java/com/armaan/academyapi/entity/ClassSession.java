@@ -30,13 +30,10 @@ public class ClassSession {
     private Batch batch;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
+    @JoinColumn(name = "course_teacher_id")
+    private CourseTeacher courseTeacher;
 
-    @ManyToOne
-    @JoinColumn(name="course_id")
-    private Course course;
-
+    
     private LocalDate date;
 
 

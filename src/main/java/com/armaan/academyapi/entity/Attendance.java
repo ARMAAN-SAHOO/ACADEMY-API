@@ -27,12 +27,8 @@ public class Attendance {
     private Long attendanceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch_id", nullable = false)
-    private Batch batch;
+    @JoinColumn(name = "enrollment_id", nullable = false)
+    private Enrollment enrollment;
 
     // Date for the attendance record
     private LocalDate date;
@@ -41,4 +37,7 @@ public class Attendance {
     // Example: "1111" = attended all 4 sessions, "1010" = attended 1st & 3rd sessions
     @Column(length = 31) // adjust length if needed for sessions
     private String sessionBitmask;
+
+    private Integer totalSessions;
+
 }
