@@ -1,5 +1,7 @@
 package com.armaan.academyapi.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.armaan.academyapi.entity.Result;
@@ -7,5 +9,9 @@ import com.armaan.academyapi.entity.Result;
 import org.springframework.stereotype.Repository;
 @Repository
 public interface ResultRepository extends JpaRepository<Result,Long>{
+
+    List<Result> findByStudentId(Long studentId);
+
+    List<Result> findByExamId(Long examId);
 
 }

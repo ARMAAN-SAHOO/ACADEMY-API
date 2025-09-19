@@ -17,53 +17,29 @@ public class ResultServiceImpl implements ResultService {
     private final ResultRepository examResultRepository;
 
     @Override
-    public ExamResult recordResult(ExamResult examResult) {
+    public Result recordResult(Result examResult) {
         return examResultRepository.save(examResult);
     }
 
     @Override
-    public ExamResult getResultById(Long resultId) {
+    public Result getResultById(Long resultId) {
         return examResultRepository.findById(resultId)
                 .orElseThrow(() -> new EntityNotFoundException("ExamResult not found"));
     }
 
     @Override
-    public List<ExamResult> getResultsByExam(Long examId) {
+    public List<Result> getResultsForExam(Long examId) {
         return examResultRepository.findByExamId(examId);
     }
 
     @Override
-    public List<ExamResult> getResultsByStudent(Long studentId) {
+    public List<Result> getResultsForStudent(Long studentId) {
         return examResultRepository.findByStudentId(studentId);
     }
 
     @Override
-    public void deleteResult(Long resultId) {
-        examResultRepository.deleteById(resultId);
-    }
-
-    @Override
-    public Result recordResult(Result result) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'recordResult'");
-    }
-
-    @Override
-    public Result getResult(Long resultId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getResult'");
-    }
-
-    @Override
-    public List<Result> getResultsForExam(Long examId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getResultsForExam'");
-    }
-
-    @Override
-    public List<Result> getResultsForStudent(Long studentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getResultsForStudent'");
+    public List<Result> getAllResults() {
+        return examResultRepository.findAll();
     }
 }
 

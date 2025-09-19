@@ -1,17 +1,14 @@
 package com.armaan.academyapi.service.serviceImpl;
-
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.entity.Batch;
-import com.armaan.academyapi.entity.ClassSession;
-import com.armaan.academyapi.entity.Student;
 import com.armaan.academyapi.repository.BatchRepository;
 import com.armaan.academyapi.service.BatchService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,20 +38,11 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
+    @Transactional
     public Batch updateBatch(Long batchId, Batch updatedBatch) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateBatch'");
-    }
-
-    @Override
-    public List<Student> getStudentsInBatch(Long batchId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudentsInBatch'");
-    }
-
-    @Override
-    public List<ClassSession> getSessions(Long batchId, LocalDate date) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSessions'");
+        Batch batch =batchRepository.findById(batchId)
+                .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
+        batch.setName(updatedBatch.getName());
+        return batch;
     }
 }

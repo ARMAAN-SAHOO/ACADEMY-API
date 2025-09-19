@@ -6,7 +6,8 @@ import com.armaan.academyapi.entity.Result;
 
 public interface ResultService {
     Result recordResult(Result result);
-    Result getResult(Long resultId);
+    Result getResultById(Long resultId);
+    List<Result> getAllResults();
     List<Result> getResultsForExam(Long examId);
     List<Result> getResultsForStudent(Long studentId);
 }

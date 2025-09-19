@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.armaan.academyapi.entity.Batch;
-import com.armaan.academyapi.entity.TimeTable;
 import com.armaan.academyapi.service.BatchService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,10 +41,5 @@ public class BatchController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         batchService.deleteBatch(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}/timetable")
-    public ResponseEntity<List<TimeTable>> getTimeTable(@PathVariable Long id) {
-        return ResponseEntity.ok(batchService.getBatchTimeTable(id));
     }
 }

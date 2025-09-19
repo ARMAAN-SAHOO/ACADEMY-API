@@ -26,14 +26,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePayment(Long paymentId) {
-        paymentRepository.deleteById(paymentId);
-    }
-
-    @Override
     public Payment getPayment(Long paymentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPayment'");
+        return paymentRepository.findById(paymentId)
+                .orElseThrow(()-> new RuntimeException("Payment not found"));
     }
 
     @Override
