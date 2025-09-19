@@ -6,7 +6,7 @@ import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Student;
 
 public interface EnrollmentService {
-    Enrollment enrollStudent(Long studentId, Long batchId);
+    Enrollment enrollStudent(Enrollment enrollment);
     Enrollment getEnrollment(Long enrollmentId);
     List<Enrollment> getEnrollmentsForStudent(Long studentId);
     List<Enrollment> getEnrollmentsForBatch(Long batchId);

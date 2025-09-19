@@ -1,7 +1,5 @@
 package com.armaan.academyapi.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,22 +22,17 @@ public class EnrollmentController {
 
     @PostMapping
     public ResponseEntity<Enrollment> create(@RequestBody Enrollment enrollment) {
-        return ResponseEntity.ok(enrollmentService.createEnrollment(enrollment));
+        return ResponseEntity.ok(enrollmentService.enrollStudent(enrollment));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Enrollment> get(@PathVariable Long id) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Enrollment>> getAll() {
-        return ResponseEntity.ok(enrollmentService.getAllEnrollments());
+        return ResponseEntity.ok(enrollmentService.getEnrollment(id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        enrollmentService.deleteEnrollment(id);
+        enrollmentService.cancelEnrollment(id);
         return ResponseEntity.noContent().build();
     }
 }
