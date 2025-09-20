@@ -24,14 +24,8 @@ public class Batch {
     private String name;
 
     @OneToMany(mappedBy = "batch")
-    private List<Enrollment> enrollments;
-
-    @OneToMany(mappedBy = "batch")
     private List<ClassSession> sessions;
 
     @OneToMany(mappedBy = "batch")
     private List<Exam> exams;
-
-    @OneToMany(mappedBy ="batch")
-    private List<Attendance> attendances;
 }

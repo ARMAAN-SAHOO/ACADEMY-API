@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.DayOfWeek;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,5 +38,8 @@ public class TimeTable {
     // Optional: start time and duration for reporting or UI
     private String startTime;  // e.g., "10:00"
     private Integer durationMinutes; // e.g., 60
+
+    @OneToMany(mappedBy = "timetable")
+    private List<ClassSession> classSessions;
 }
 

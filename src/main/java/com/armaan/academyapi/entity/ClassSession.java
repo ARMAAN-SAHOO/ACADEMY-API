@@ -37,12 +37,12 @@ public class ClassSession {
     private LocalDate date;
 
 
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "classSession")
     private List<Exam> exams;
 
     @ManyToOne
     @JoinColumn(name = "timetable_id")
     private TimeTable timetable;
 
-        private Integer slotIndex;  
+        private Integer slotIndex; 
 }

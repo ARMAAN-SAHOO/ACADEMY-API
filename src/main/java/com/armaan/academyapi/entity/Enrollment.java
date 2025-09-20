@@ -37,5 +37,8 @@ public class Enrollment {
     @OneToMany(mappedBy = "enrollment")
     private List<Payment> payments;
 
+    @OneToMany(mappedBy = "enrollment")
+    private List<Attendance> attendances;
+
     private LocalDate enrolledOn;
 }

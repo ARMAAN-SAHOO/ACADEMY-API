@@ -27,8 +27,5 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private List<CourseTeacher> courseTeachers;
-
-    @OneToMany(mappedBy="course")
-    private List<ClassSession> sessions;
 }
 

@@ -38,8 +38,6 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
 
-    @OneToMany(mappedBy = "student")
-    private List<Attendance> attendances;
 
     @OneToMany(mappedBy = "student")
     private List<Result> results;
