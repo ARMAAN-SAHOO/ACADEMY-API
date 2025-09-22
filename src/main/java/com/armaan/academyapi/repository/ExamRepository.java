@@ -14,4 +14,6 @@ public interface ExamRepository extends JpaRepository<Exam,Long>{
 
     List<Exam> findAllByBatchBatchId(Long batchId);
 
+    List<Exam> findAllByCourseCourseId(Long courseId);
+
 }
