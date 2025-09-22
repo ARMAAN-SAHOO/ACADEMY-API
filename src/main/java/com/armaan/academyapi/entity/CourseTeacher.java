@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +18,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class CourseTeacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseTeacherId;
+
+     private boolean deleted = false; 
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
@@ -36,4 +36,7 @@ public class CourseTeacher {
 
     @OneToMany(mappedBy = "courseTeacher")
     private List<ClassSession> classSessions;
+
+    @OneToMany(mappedBy="courseTeacher")
+    private List<TimeTable> timeTables;
 }

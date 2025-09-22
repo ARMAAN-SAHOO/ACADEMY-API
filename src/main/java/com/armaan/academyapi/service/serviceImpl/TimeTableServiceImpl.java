@@ -27,14 +27,21 @@ public class TimeTableServiceImpl implements TimeTableService {
     }
 
     @Override
-    public void deleteTimeTable(Long timetableId) {
-        timeTableRepository.deleteById(timetableId);
-    }
-
-    @Override
     public List<TimeTable> getTimeTablesForBatch(Long batchId) {
 
         return timeTableRepository.findAllByBatchId(batchId);
+    }
+
+    @Override
+    public TimeTable updateTimeTable(TimeTable timeTable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateTimeTable'");
+    }
+
+    @Override
+    public void deleteTimeTable(Long timetableId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteTimeTable'");
     }
 }
 

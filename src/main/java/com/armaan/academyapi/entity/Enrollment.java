@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +18,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 //brigde b/w batch and student
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long enrollmentId;
+
+    private boolean deleted = false; 
 
     @ManyToOne
     @JoinColumn(name = "student_id")

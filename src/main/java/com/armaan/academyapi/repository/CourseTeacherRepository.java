@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourseTeacherRepository extends JpaRepository<CourseTeacher,Long>{
 
+    boolean existsByCourseIdAndTeacherId(Long courseId, Long teacherId);
+
 }

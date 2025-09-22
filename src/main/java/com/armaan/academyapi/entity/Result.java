@@ -31,4 +31,8 @@ public class Result {
     private Student student;
 
     private Integer marksObtained;
+
+    // percentage 
+    //no of fail
+    
 }
