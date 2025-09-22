@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClassSessionRepository extends JpaRepository<ClassSession,Long>{
 
-    List<ClassSession> findByBatchId(Long batchId);
+    List<ClassSession> findByBatchBatchId(Long batchId);
 
     List<ClassSession> findAllByDate(LocalDate date);
 

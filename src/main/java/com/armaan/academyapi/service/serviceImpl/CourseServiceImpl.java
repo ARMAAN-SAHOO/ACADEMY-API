@@ -56,7 +56,7 @@ public class CourseServiceImpl implements CourseService {
         List<CourseTeacher> courseTeachers= courseTeacherRepository.findAllByCourseCourseId(courseId);
         courseTeachers.forEach(cs->cs.setDeleted(true));
 
-        List<TimeTable> tables=timeTableRepository.findAllByCourseCourseId(courseId);
+        List<TimeTable> tables=timeTableRepository.findAllByCourseId(courseId);
         tables.forEach(table->table.setDeleted(true));
 
         List<Exam> exams=examRepository.findAllByCourseCourseId(courseId);

@@ -33,7 +33,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
         Course course=courseRepository.findById(courseId).orElseThrow(()->new RuntimeException("Course Not Found"+courseId));
         Teacher teacher=teacherRepository.findById(teacherId).orElseThrow(()->new RuntimeException("Teacher Not Found"+teacherId));
 
-        if(courseTeacherRepository.existsByCourseIdAndTeacherId(courseId,teacherId)){
+        if(courseTeacherRepository.existsByCourseCourseIdAndTeacherTeacherId(courseId,teacherId)){
                     throw new RuntimeException("Already assigned");
         }                                                                                                                                                                                                                                                                                                                                                                                                                                     
         CourseTeacher courseTeacher=new CourseTeacher();

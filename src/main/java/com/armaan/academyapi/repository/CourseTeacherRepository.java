@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourseTeacherRepository extends JpaRepository<CourseTeacher,Long>{
 
-    boolean existsByCourseIdAndTeacherId(Long courseId, Long teacherId);
+    boolean existsByCourseCourseIdAndTeacherTeacherId(Long courseId, Long teacherId);
 
     List<CourseTeacher> findAllByCourseCourseId(Long courseId);
 

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ResultRepository extends JpaRepository<Result,Long>{
 
-    List<Result> findByStudentId(Long studentId);
+    List<Result> findByStudentStudentId(Long studentId);
 
-    List<Result> findByExamId(Long examId);
+    List<Result> findByExamExamId(Long examId);
 
 }

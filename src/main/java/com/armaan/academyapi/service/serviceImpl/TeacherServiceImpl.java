@@ -52,7 +52,7 @@ public class TeacherServiceImpl implements TeacherService {
         List<CourseTeacher> courseTeachers= courseTeacherRepository.findAllByTeacherTeacherId(teacherId);
         courseTeachers.forEach(cs->cs.setDeleted(true));
 
-        List<TimeTable> tables=timeTableRepository.findAllByTeacherTeacherId(teacherId);
+        List<TimeTable> tables=timeTableRepository.findAllByTeacherId(teacherId);
         tables.forEach(table->table.setDeleted(true));
 
     }

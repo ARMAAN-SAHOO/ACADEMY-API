@@ -29,12 +29,12 @@ public class ResultServiceImpl implements ResultService {
 
     @Override
     public List<Result> getResultsForExam(Long examId) {
-        return examResultRepository.findByExamId(examId);
+        return examResultRepository.findByExamExamId(examId);
     }
 
     @Override
     public List<Result> getResultsForStudent(Long studentId) {
-        return examResultRepository.findByStudentId(studentId);
+        return examResultRepository.findByStudentStudentId(studentId);
     }
 
     @Override

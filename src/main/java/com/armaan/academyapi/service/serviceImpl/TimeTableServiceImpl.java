@@ -29,7 +29,7 @@ public class TimeTableServiceImpl implements TimeTableService {
     @Override
     public List<TimeTable> getTimeTablesForBatch(Long batchId) {
 
-        return timeTableRepository.findAllByBatchId(batchId);
+        return timeTableRepository.findAllByBatchBatchId(batchId);
     }
 
     @Override

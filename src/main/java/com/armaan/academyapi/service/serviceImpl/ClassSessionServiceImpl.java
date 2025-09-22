@@ -30,7 +30,7 @@ public class ClassSessionServiceImpl implements ClassSessionService {
 
     @Override
     public List<ClassSession> getSessionsByBatch(Long batchId) {
-        return sessionRepository.findByBatchId(batchId);
+        return sessionRepository.findByBatchBatchId(batchId);
     }
 
     @Override
