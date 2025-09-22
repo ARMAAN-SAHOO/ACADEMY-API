@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.entity.Exam;
+import com.armaan.academyapi.enums.ExamStatus;
 import com.armaan.academyapi.repository.ExamRepository;
 import com.armaan.academyapi.service.ExamService;
 
@@ -34,7 +35,9 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public void deleteExam(Long examId) {
-        examRepository.deleteById(examId);
+        Exam exam =examRepository.findById(examId)
+                .orElseThrow(() -> new EntityNotFoundException("Exam not found"));
+        exam.setStatus(ExamStatus.CANCELLED);
     }
 
     @Override

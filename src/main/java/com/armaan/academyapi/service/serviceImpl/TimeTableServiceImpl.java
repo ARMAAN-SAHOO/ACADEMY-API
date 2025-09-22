@@ -34,14 +34,14 @@ public class TimeTableServiceImpl implements TimeTableService {
 
     @Override
     public TimeTable updateTimeTable(TimeTable timeTable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTimeTable'");
+        return null;
     }
 
     @Override
     public void deleteTimeTable(Long timetableId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteTimeTable'");
+        TimeTable timeTable=timeTableRepository.findById(timetableId)
+                .orElseThrow(() -> new EntityNotFoundException("TimeTable not found"));
+        timeTable.setDeleted(true);
     }
 }
 
