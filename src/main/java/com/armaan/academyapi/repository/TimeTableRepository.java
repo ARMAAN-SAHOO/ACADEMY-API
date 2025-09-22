@@ -14,4 +14,6 @@ public interface TimeTableRepository extends JpaRepository<TimeTable,Long>{
 
     List<TimeTable> findAllByBatchId(Long batchId);
 
+    List<TimeTable> findAllByBatchBatchId(Long batchId);
+
 }

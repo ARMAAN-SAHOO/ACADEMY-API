@@ -9,6 +9,4 @@ public interface BatchService {
     List<Batch> getAllBatches();
     Batch updateBatch(Long batchId, Batch updatedBatch);
     void deleteBatch(Long batchId);
-
-    // extras
 }
