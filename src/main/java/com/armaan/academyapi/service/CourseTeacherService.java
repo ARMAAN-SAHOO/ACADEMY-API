@@ -7,6 +7,7 @@ import com.armaan.academyapi.entity.CourseTeacher;
 
 public interface CourseTeacherService {
     CourseTeacher assignTeacherToCourse(Long teacherId, Long courseId);
+    CourseTeacher getCourseTeacherById(Long courseTeacherId);
     void removeTeacherFromCourse(Long courseTeacherId);
     List<CourseTeacher> getAllCourseTeachers();
 }

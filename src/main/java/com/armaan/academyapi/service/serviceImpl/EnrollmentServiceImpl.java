@@ -10,6 +10,7 @@ import com.armaan.academyapi.entity.Student;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.service.EnrollmentService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -47,8 +48,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
+    @Transactional
     public void cancelEnrollment(Long enrollmentId) {
-        enrollmentRepository.deleteById(enrollmentId);
+
+        Enrollment enrollment=enrollmentRepository.findById(enrollmentId)
+        .orElseThrow(()->new RuntimeException("Not FOund Buddy"));
+
+        enrollment.setDeleted(true);
+        
     }
 
 }
