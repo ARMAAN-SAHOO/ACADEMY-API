@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.armaan.academyapi.entity.Enrollment;
+import com.armaan.academyapi.entity.Parent;
 import com.armaan.academyapi.entity.Student;
+import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.repository.StudentRepository;
 import com.armaan.academyapi.service.StudentService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     @Override
     public Student createStudent(Student student) {
@@ -43,8 +48,26 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public void deleteStudent(Long studentId) {
-        studentRepository.deleteById(studentId);
+
+       Student student= studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        student.setDeleted(true);
+
+        List<Enrollment> enrollments=enrollmentRepository.findAllByStudentStudentId(studentId);
+        enrollments.forEach(enrollment -> enrollment.setDeleted(true));
+
+        Parent parent=student.getParent();
+        if(parent!=null){
+            boolean hasActiveChild=parent.getStudents().stream().anyMatch(s->!s.isDeleted());
+
+            if(!hasActiveChild){
+                parent.setDeleted(true);
+            }
+        }
+
     }
 }
 

@@ -1,9 +1,6 @@
 package com.armaan.academyapi.entity;
 
 import java.util.List;
-
-import lombok.Builder;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +22,8 @@ public class Parent {
     private String fullName;
     private String contact;
     private String relation;
+
+    private boolean deleted=false;
 
     @OneToMany(mappedBy = "parent")
     private List<Student> students;
