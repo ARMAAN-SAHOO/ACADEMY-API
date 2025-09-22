@@ -11,11 +11,16 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@SQLDelete(sql = "UPDATE time_table SET deleted=true where timetable_id=?")
+@SQLRestriction("deleted=false")
 public class TimeTable {
 
     @Id

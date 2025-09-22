@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE course SET deleted=true where id=?")
+@SQLDelete(sql = "UPDATE course SET deleted=true where course_id=?")
 @SQLRestriction("deleted=false")
 public class Course {
     @Id

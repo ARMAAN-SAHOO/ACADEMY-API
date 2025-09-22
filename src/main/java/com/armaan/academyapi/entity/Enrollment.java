@@ -3,6 +3,9 @@ package com.armaan.academyapi.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +22,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 //brigde b/w batch and student
+@SQLDelete(sql = "UPDATE enrollment SET deleted=true where enrollment_id=?")
+@SQLRestriction("deleted=false")
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
