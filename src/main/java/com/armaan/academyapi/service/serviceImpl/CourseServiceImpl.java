@@ -1,14 +1,18 @@
 package com.armaan.academyapi.service.serviceImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.armaan.academyapi.dto.request.CourseRequestDto;
+import com.armaan.academyapi.dto.response.CourseResponseDto;
 import com.armaan.academyapi.entity.Course;
 import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Exam;
 import com.armaan.academyapi.entity.TimeTable;
 import com.armaan.academyapi.enums.ExamStatus;
+import com.armaan.academyapi.mapper.CourseMapper;
 import com.armaan.academyapi.repository.CourseRepository;
 import com.armaan.academyapi.repository.CourseTeacherRepository;
 import com.armaan.academyapi.repository.ExamRepository;
@@ -23,25 +27,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
+    private final CourseMapper courseMapper;
     private final CourseRepository courseRepository;
     private final CourseTeacherRepository courseTeacherRepository;
     private final TimeTableRepository timeTableRepository;
     private final ExamRepository examRepository;
 
     @Override
-    public Course createCourse(Course course) {
-        return courseRepository.save(course);
+    public CourseResponseDto createCourse(CourseRequestDto courseRequestDto) {
+        Course course=courseMapper.toEntity(courseRequestDto);
+        courseRepository.save(course);
+        return courseMapper.toResponseDto(course);
     }
 
     @Override
-    public Course getCourseById(Long courseId) {
-        return courseRepository.findById(courseId)
+    public CourseResponseDto getCourseById(Long courseId) {
+
+        Course course=courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        
+        return courseMapper.toResponseDto(course);
     }
 
     @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseResponseDto> getAllCourses() {
+
+        List<Course> courses= courseRepository.findAll();
+
+        return courses.stream().map(course->courseMapper.toResponseDto(course)).collect(Collectors.toList());
     }
 
     @Override
@@ -65,14 +78,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Course updateCourse(Long courseId, Course updatedCourse) {
+    public CourseResponseDto updateCourse(Long courseId, CourseRequestDto courseRequestDto) {
 
         Course course=courseRepository.findById(courseId)
                     .orElseThrow(()->new RuntimeException("Course Not Found"));
 
-        course.setName(updatedCourse.getName());
-        course.setDescription(updatedCourse.getDescription());
-
-        return course;
+        courseMapper.update(courseRequestDto, course);
+        return courseMapper.toResponseDto(course);
     }
 }

@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.Course;
+import com.armaan.academyapi.dto.request.CourseRequestDto;
+import com.armaan.academyapi.dto.response.CourseResponseDto;
 import com.armaan.academyapi.service.CourseService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -23,17 +26,22 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<Course> create(@RequestBody Course course) {
-        return ResponseEntity.ok(courseService.createCourse(course));
+    public ResponseEntity<CourseResponseDto> create(@RequestBody CourseRequestDto courseRequestDto) {
+        return ResponseEntity.status(201).body(courseService.createCourse(courseRequestDto));
+    }
+
+    @PutMapping("/{id}")
+    public  ResponseEntity<CourseResponseDto> update(@PathVariable Long id, @RequestBody CourseRequestDto courseRequestDto) {
+        return ResponseEntity.ok(courseService.updateCourse(id, courseRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> get(@PathVariable Long id) {
+    public ResponseEntity<CourseResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(courseService.getCourseById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> getAll() {
+    public ResponseEntity<List<CourseResponseDto>> getAll() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
