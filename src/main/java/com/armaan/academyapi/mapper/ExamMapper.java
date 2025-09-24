@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.armaan.academyapi.dto.request.BatchRequestDto;
-import com.armaan.academyapi.dto.response.BatchResponseDto;
-import com.armaan.academyapi.entity.Batch;
+import com.armaan.academyapi.dto.request.ExamRequestDto;
+import com.armaan.academyapi.dto.response.ExamResponseDto;
+import com.armaan.academyapi.entity.Exam;
 
 @Mapper(
     componentModel = "spring",
@@ -14,7 +14,6 @@ import com.armaan.academyapi.entity.Batch;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface BatchMapper extends BaseMapper<Batch,BatchRequestDto,BatchResponseDto> {
+public interface ExamMapper extends BaseMapper<Exam,ExamRequestDto,ExamResponseDto>{
 
-    
 }
