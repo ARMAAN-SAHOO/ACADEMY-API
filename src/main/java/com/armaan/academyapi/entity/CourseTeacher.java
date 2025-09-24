@@ -39,9 +39,6 @@ public class CourseTeacher {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "courseTeacher")
-    private List<ClassSession> classSessions;
-
     @OneToMany(mappedBy="courseTeacher")
     private List<TimeTable> timeTables;
 }

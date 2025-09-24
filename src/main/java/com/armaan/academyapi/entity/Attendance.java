@@ -2,7 +2,6 @@ package com.armaan.academyapi.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,16 +28,13 @@ public class Attendance {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "enrollment_id", nullable = false)
-    private Enrollment enrollment;
+    private Enrollment enrollment; // student + batch
 
-    // Date for the attendance record
-    private LocalDate date;
+    private LocalDate date;             // day of attendance
+    private String sessionBitmask;      // e.g., "1011" for 4 slots (1 = present, 0 = absent)
 
-    // Bitmask string representing session attendance for the day
-    // Example: "1111" = attended all 4 sessions, "1010" = attended 1st & 3rd sessions
-    @Column(length = 31) // adjust length if needed for sessions
-    private String sessionBitmask;
-
+    // totalSessions can be calculated in backend from timetable, optional to store
+    @Transient
     private Integer totalSessions;
 
 }

@@ -30,8 +30,5 @@ public class Batch {
      private boolean deleted = false; 
 
     @OneToMany(mappedBy = "batch")
-    private List<ClassSession> sessions;
-
-    @OneToMany(mappedBy = "batch")
     private List<Exam> exams;
 }

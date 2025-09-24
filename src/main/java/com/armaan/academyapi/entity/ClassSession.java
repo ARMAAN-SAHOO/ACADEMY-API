@@ -21,21 +21,12 @@ public class ClassSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sessionId;
-
-    @ManyToOne
-    @JoinColumn(name = "batch_id")
-    private Batch batch;
-
-    @ManyToOne
-    @JoinColumn(name = "course_teacher_id")
-    private CourseTeacher courseTeacher;
-
     
     private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "timetable_id")
     private TimeTable timetable;
-
+    
         private Integer slotIndex; 
 }
