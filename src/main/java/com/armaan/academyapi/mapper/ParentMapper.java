@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.ParentRequestDto;
 import com.armaan.academyapi.dto.response.ParentResponseDto;
+import com.armaan.academyapi.dto.update.ParentUpdateDto;
 import com.armaan.academyapi.entity.Parent;
 
 @Mapper(
@@ -14,6 +15,6 @@ import com.armaan.academyapi.entity.Parent;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface ParentMapper extends BaseMapper<Parent,ParentRequestDto,ParentResponseDto>{
+public interface ParentMapper extends BaseMapper<Parent,ParentRequestDto,ParentResponseDto,ParentUpdateDto>{
 
 }

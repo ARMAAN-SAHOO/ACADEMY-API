@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.ExamRequestDto;
 import com.armaan.academyapi.dto.response.ExamResponseDto;
+import com.armaan.academyapi.dto.update.ExamUpdateDto;
 import com.armaan.academyapi.entity.Exam;
 
 @Mapper(
@@ -14,6 +15,6 @@ import com.armaan.academyapi.entity.Exam;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface ExamMapper extends BaseMapper<Exam,ExamRequestDto,ExamResponseDto>{
+public interface ExamMapper extends BaseMapper<Exam,ExamRequestDto,ExamResponseDto,ExamUpdateDto>{
 
 }

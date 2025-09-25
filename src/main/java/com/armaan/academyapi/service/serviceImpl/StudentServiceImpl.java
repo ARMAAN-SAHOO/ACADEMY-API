@@ -29,9 +29,11 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapper studentMapper;
 
     @Override
+    @Transactional
     public StudentResponseDto createStudent(StudentRequestDto studentRequestDto) {
-        Student student=studentMapper.toEntity(studentRequestDto);
+
         Parent parent=parentRepository.findById(studentRequestDto.getParentId()).orElseThrow(()->new EntityNotFoundException());
+        Student student=studentMapper.toEntity(studentRequestDto);
         student.setParent(parent);
         Student savedStudent=studentRepository.save(student);
         return studentMapper.toResponseDto(savedStudent);
@@ -39,6 +41,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto getStudentById(Long studentId) {
+
         Student student =studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         return studentMapper.toResponseDto(student);
@@ -50,7 +53,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public StudentResponseDto updateStudent(Long studentId, StudentRequestDto studentRequestDto) {
+
+        Parent parent=parentRepository.findById(studentRequestDto.getParentId()).orElseThrow(()->new EntityNotFoundException());
 
         Student student=studentRepository.findById(studentId).orElseThrow(()->new EntityNotFoundException());
         studentMapper.update(studentRequestDto, student);

@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.EnrollmentRequestDto;
 import com.armaan.academyapi.dto.response.EnrollmentResponseDto;
+import com.armaan.academyapi.dto.update.EnrollmentUpdateDto;
 import com.armaan.academyapi.entity.Enrollment;
 
 @Mapper(
@@ -14,6 +15,6 @@ import com.armaan.academyapi.entity.Enrollment;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface EnrollmentMapper extends BaseMapper<Enrollment,EnrollmentRequestDto,EnrollmentResponseDto>{
+public interface EnrollmentMapper extends BaseMapper<Enrollment,EnrollmentRequestDto,EnrollmentResponseDto,EnrollmentUpdateDto>{
 
 }

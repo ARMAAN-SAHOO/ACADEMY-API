@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.PaymentRequestDto;
 import com.armaan.academyapi.dto.response.PaymentResponseDto;
+import com.armaan.academyapi.dto.update.PaymentUpdateDto;
 import com.armaan.academyapi.entity.Payment;
 
 
@@ -15,6 +16,6 @@ import com.armaan.academyapi.entity.Payment;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface PaymentMapper extends BaseMapper<Payment,PaymentRequestDto,PaymentResponseDto> {
+public interface PaymentMapper extends BaseMapper<Payment,PaymentRequestDto,PaymentResponseDto,PaymentUpdateDto> {
 
 }

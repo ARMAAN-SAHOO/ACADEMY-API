@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.ClassSessionRequestDto;
 import com.armaan.academyapi.dto.response.ClassSessionResponseDto;
+import com.armaan.academyapi.dto.update.ClassSessionUpdateDto;
 import com.armaan.academyapi.entity.ClassSession;
 
 
@@ -15,6 +16,6 @@ import com.armaan.academyapi.entity.ClassSession;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface ClassSessionMapper extends BaseMapper<ClassSession,ClassSessionRequestDto,ClassSessionResponseDto>{
+public interface ClassSessionMapper extends BaseMapper<ClassSession,ClassSessionRequestDto,ClassSessionResponseDto,ClassSessionUpdateDto>{
 
 }

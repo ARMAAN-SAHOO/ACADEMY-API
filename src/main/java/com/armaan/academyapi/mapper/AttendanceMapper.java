@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.AttendanceRequestDto;
 import com.armaan.academyapi.dto.response.AttendanceResponseDto;
+import com.armaan.academyapi.dto.update.AttendanceUpdateDto;
 import com.armaan.academyapi.entity.Attendance;
 
 @Mapper(
@@ -14,6 +15,6 @@ import com.armaan.academyapi.entity.Attendance;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface AttendanceMapper extends BaseMapper<Attendance,AttendanceRequestDto,AttendanceResponseDto>{
+public interface AttendanceMapper extends BaseMapper<Attendance,AttendanceRequestDto,AttendanceResponseDto,AttendanceUpdateDto>{
 
 }

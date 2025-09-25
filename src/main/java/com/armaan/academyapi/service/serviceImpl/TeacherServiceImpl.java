@@ -29,6 +29,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherMapper teacherMapper;
 
     @Override
+    @Transactional
     public TeacherResponseDto createTeacher(TeacherRequestDto teacherRequestDto) {
         Teacher teacher=teacherMapper.toEntity(teacherRequestDto);
         Teacher savedTeacher= teacherRepository.save(teacher);
@@ -65,6 +66,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    @Transactional
     public TeacherResponseDto updateTeacher(Long teacherId, TeacherRequestDto teacherRequestDto) {
 
         Teacher teacher=teacherRepository.findById(teacherId)

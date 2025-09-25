@@ -6,6 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.TimeTableRequestDto;
 import com.armaan.academyapi.dto.response.TimeTableResponseDto;
+import com.armaan.academyapi.dto.update.TimeTableUpdateDto;
 import com.armaan.academyapi.entity.TimeTable;
 
 @Mapper(
@@ -14,6 +15,6 @@ import com.armaan.academyapi.entity.TimeTable;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface TimeTableMapper extends BaseMapper<TimeTable,TimeTableRequestDto,TimeTableResponseDto>{
+public interface TimeTableMapper extends BaseMapper<TimeTable,TimeTableRequestDto,TimeTableResponseDto,TimeTableUpdateDto>{
 
 }
