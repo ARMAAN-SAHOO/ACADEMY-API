@@ -2,14 +2,16 @@ package com.armaan.academyapi.service;
 
 
 import java.util.List;
-import com.armaan.academyapi.entity.Enrollment;
-import com.armaan.academyapi.entity.Student;
+
+import com.armaan.academyapi.dto.request.EnrollmentRequestDto;
+import com.armaan.academyapi.dto.response.EnrollmentResponseDto;
+import com.armaan.academyapi.dto.response.StudentResponseDto;
 
 public interface EnrollmentService {
-    Enrollment enrollStudent(Enrollment enrollment);
-    Enrollment getEnrollment(Long enrollmentId);
-    List<Enrollment> getEnrollmentsForStudent(Long studentId);
-    List<Enrollment> getEnrollmentsForBatch(Long batchId);
-    List<Student> getStudentsInBatch(Long batchId);
+    EnrollmentResponseDto enrollStudent(EnrollmentRequestDto enrollmentRequestDto);
+    EnrollmentResponseDto getEnrollment(Long enrollmentId);
+    List<EnrollmentResponseDto> getEnrollmentsForStudent(Long studentId);
+    List<EnrollmentResponseDto> getEnrollmentsForBatch(Long batchId);
+    List<StudentResponseDto> getStudentsInBatch(Long batchId);
     void cancelEnrollment(Long enrollmentId);
 }

@@ -3,11 +3,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.armaan.academyapi.dto.request.BatchRequestDto;
+import com.armaan.academyapi.dto.response.BatchResponseDto;
 import com.armaan.academyapi.entity.Batch;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Exam;
 import com.armaan.academyapi.entity.TimeTable;
 import com.armaan.academyapi.enums.ExamStatus;
+import com.armaan.academyapi.mapper.BatchMapper;
 import com.armaan.academyapi.repository.BatchRepository;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.repository.ExamRepository;
@@ -22,25 +25,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BatchServiceImpl implements BatchService {
 
+
+    private final BatchMapper batchMapper;
     private final BatchRepository batchRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final TimeTableRepository timeTableRepository;
     private final ExamRepository examRepository;
 
     @Override
-    public Batch createBatch(Batch batch) {
-        return batchRepository.save(batch);
+    public BatchResponseDto createBatch(BatchRequestDto batchRequestDto) {
+
+        Batch batch=batchMapper.toEntity(batchRequestDto);
+        Batch savedBatch=batchRepository.save(batch);
+        return batchMapper.toResponseDto(savedBatch);
     }
 
     @Override
-    public Batch getBatchById(Long batchId) {
-        return batchRepository.findById(batchId)
+    public BatchResponseDto getBatchById(Long batchId) {
+
+        Batch batch= batchRepository.findById(batchId)
                 .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
+        return batchMapper.toResponseDto(batch);
+        
     }
 
     @Override
-    public List<Batch> getAllBatches() {
-        return batchRepository.findAll();
+    public List<BatchResponseDto> getAllBatches() {
+        return batchRepository.findAll().stream().map(batch->batchMapper.toResponseDto(batch)).toList();
     }
 
     @Override
@@ -67,10 +78,10 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     @Transactional
-    public Batch updateBatch(Long batchId, Batch updatedBatch) {
+    public BatchResponseDto updateBatch(Long batchId, BatchRequestDto batchRequestDto) {
         Batch batch =batchRepository.findById(batchId)
                 .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
-        batch.setName(updatedBatch.getName());
-        return batch;
+        batchMapper.update(batchRequestDto, batch);
+        return batchMapper.toResponseDto(batch);
     }
 }

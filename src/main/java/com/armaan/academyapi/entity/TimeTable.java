@@ -3,6 +3,7 @@ package com.armaan.academyapi.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Entity
+@Builder
 @SQLDelete(sql = "UPDATE time_table SET deleted=true where timetable_id=?")
 @SQLRestriction("deleted=false")
 public class TimeTable {
@@ -27,7 +29,8 @@ public class TimeTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long timetableId;
 
-     private boolean deleted = false; 
+    @Builder.Default
+    private boolean deleted = false; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id", nullable = false)
@@ -48,5 +51,6 @@ public class TimeTable {
 
     @OneToMany(mappedBy = "timetable")
     private List<ClassSession> classSessions;
+
 }
 

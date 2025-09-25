@@ -1,12 +1,15 @@
 package com.armaan.academyapi.service.serviceImpl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.armaan.academyapi.dto.request.EnrollmentRequestDto;
+import com.armaan.academyapi.dto.response.EnrollmentResponseDto;
+import com.armaan.academyapi.dto.response.StudentResponseDto;
 import com.armaan.academyapi.entity.Enrollment;
-import com.armaan.academyapi.entity.Student;
+import com.armaan.academyapi.mapper.EnrollmentMapper;
+import com.armaan.academyapi.mapper.StudentMapper;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.service.EnrollmentService;
 
@@ -18,33 +21,37 @@ import lombok.RequiredArgsConstructor;
 public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
+    private final EnrollmentMapper enrollmentMapper;
+    private final StudentMapper studentMapper;
 
     @Override
-    public Enrollment enrollStudent(Enrollment enrollment) {
-        return enrollmentRepository.save(enrollment);
+    public EnrollmentResponseDto enrollStudent(EnrollmentRequestDto enrollmentRequestDto) {
+        Enrollment enrollment=enrollmentMapper.toEntity(enrollmentRequestDto);
+        Enrollment savedEnrollment= enrollmentRepository.save(enrollment);
+        return enrollmentMapper.toResponseDto(savedEnrollment);
     }
 
     @Override
-    public Enrollment getEnrollment(Long enrollmentId) {
+    public EnrollmentResponseDto getEnrollment(Long enrollmentId) {
         Enrollment enrollment=enrollmentRepository.findById(enrollmentId)
         .orElseThrow(()->new RuntimeException("Not FOund Buddy"));
-        return enrollment;
+        return enrollmentMapper.toResponseDto(enrollment);
     }
 
     @Override
-    public List<Enrollment> getEnrollmentsForStudent(Long studentId) {
-        return enrollmentRepository.findAllByStudentStudentId(studentId);
+    public List<EnrollmentResponseDto> getEnrollmentsForStudent(Long studentId) {
+        return enrollmentRepository.findAllByStudentStudentId(studentId).stream().map(enrollement->enrollmentMapper.toResponseDto(enrollement)).toList();
     }
 
     @Override
-    public List<Enrollment> getEnrollmentsForBatch(Long batchId) {
-        return enrollmentRepository.findAllByBatchBatchId(batchId);
+    public List<EnrollmentResponseDto> getEnrollmentsForBatch(Long batchId) {
+        return enrollmentRepository.findAllByBatchBatchId(batchId).stream().map(enrollment->enrollmentMapper.toResponseDto(enrollment)).toList();
     }
 
     @Override
-    public List<Student> getStudentsInBatch(Long batchId) {
+    public List<StudentResponseDto> getStudentsInBatch(Long batchId) {
             List<Enrollment> enrollments=enrollmentRepository.findAllByBatchBatchId(batchId);
-            return enrollments.stream().map(Enrollment::getStudent).collect(Collectors.toList());
+            return enrollments.stream().map(Enrollment::getStudent).map(studentMapper::toResponseDto).toList();
     }
 
     @Override

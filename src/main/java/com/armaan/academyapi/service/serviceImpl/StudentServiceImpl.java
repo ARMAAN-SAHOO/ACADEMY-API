@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.armaan.academyapi.dto.request.StudentRequestDto;
+import com.armaan.academyapi.dto.response.StudentResponseDto;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Parent;
 import com.armaan.academyapi.entity.Student;
+import com.armaan.academyapi.mapper.StudentMapper;
 import com.armaan.academyapi.repository.EnrollmentRepository;
+import com.armaan.academyapi.repository.ParentRepository;
 import com.armaan.academyapi.repository.StudentRepository;
 import com.armaan.academyapi.service.StudentService;
 
@@ -21,30 +25,36 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final EnrollmentRepository enrollmentRepository;
+    private final ParentRepository parentRepository;
+    private final StudentMapper studentMapper;
 
     @Override
-    public Student createStudent(Student student) {
-        return studentRepository.save(student);
+    public StudentResponseDto createStudent(StudentRequestDto studentRequestDto) {
+        Student student=studentMapper.toEntity(studentRequestDto);
+        Parent parent=parentRepository.findById(studentRequestDto.getParentId()).orElseThrow(()->new EntityNotFoundException());
+        student.setParent(parent);
+        Student savedStudent=studentRepository.save(student);
+        return studentMapper.toResponseDto(savedStudent);
     }
 
     @Override
-    public Student getStudentById(Long studentId) {
-        return studentRepository.findById(studentId)
+    public StudentResponseDto getStudentById(Long studentId) {
+        Student student =studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        return studentMapper.toResponseDto(student);
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentResponseDto> getAllStudents() {
+        return  studentRepository.findAll().stream().map(student->studentMapper.toResponseDto(student)).toList();
     }
 
     @Override
-    public Student updateStudent(Long studentId, Student studentDetails) {
-        Student student = getStudentById(studentId);
-        student.setFullName(studentDetails.getFullName());
-        student.setPhone(studentDetails.getPhone());
-        student.setParent(studentDetails.getParent());
-        return studentRepository.save(student);
+    public StudentResponseDto updateStudent(Long studentId, StudentRequestDto studentRequestDto) {
+
+        Student student=studentRepository.findById(studentId).orElseThrow(()->new EntityNotFoundException());
+        studentMapper.update(studentRequestDto, student);
+        return studentMapper.toResponseDto(student);
     }
 
     @Override

@@ -4,7 +4,7 @@ import org.mapstruct.MappingTarget;
 
 public interface BaseMapper<E,REQ,RES> {
 
-        E toEntity(REQ dto);
+    E toEntity(REQ dto);
 
     RES toResponseDto(E entity);
 

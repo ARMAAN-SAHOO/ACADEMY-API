@@ -14,6 +14,6 @@ import com.armaan.academyapi.entity.TimeTable;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface TImeTableMapper extends BaseMapper<TimeTable,TimeTableRequestDto,TimeTableResponseDto>{
+public interface TimeTableMapper extends BaseMapper<TimeTable,TimeTableRequestDto,TimeTableResponseDto>{
 
 }

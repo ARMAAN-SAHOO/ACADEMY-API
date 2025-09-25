@@ -1,13 +1,15 @@
 package com.armaan.academyapi.service;
 
 import java.util.List;
-import com.armaan.academyapi.entity.TimeTable;
+
+import com.armaan.academyapi.dto.request.TimeTableRequestDto;
+import com.armaan.academyapi.dto.response.TimeTableResponseDto;
 
 public interface TimeTableService {
-    TimeTable createTimeTable(TimeTable timetable);
-    TimeTable updateTimeTable(TimeTable timeTable);
-    TimeTable getTimeTableById(Long timetableId);
-    List<TimeTable> getTimeTablesForBatch(Long batchId);
+    TimeTableResponseDto createTimeTable(TimeTableRequestDto timetableRequestDto);
+    TimeTableResponseDto updateTimeTable(Long timetableId,TimeTableRequestDto timeTableRequestDto);
+    TimeTableResponseDto getTimeTableById(Long timetableId);
+    List<TimeTableResponseDto> getTimeTablesForBatch(Long batchId);
     void deleteTimeTable(Long timetableId);
 }
 

@@ -1,14 +1,16 @@
 package com.armaan.academyapi.service;
 
 import java.util.List;
-import com.armaan.academyapi.entity.Student;
+
+import com.armaan.academyapi.dto.request.StudentRequestDto;
+import com.armaan.academyapi.dto.response.StudentResponseDto;
 
 public interface StudentService {
     
-    Student createStudent(Student student);
-    Student getStudentById(Long studentId);
-    List<Student> getAllStudents();
-    Student updateStudent(Long studentId, Student updatedStudent);
+    StudentResponseDto createStudent(StudentRequestDto studentRequestDto);
+    StudentResponseDto getStudentById(Long studentId);
+    List<StudentResponseDto> getAllStudents();
+    StudentResponseDto updateStudent(Long studentId, StudentRequestDto studentRequestDto);
     void deleteStudent(Long studentId);
 }
 
