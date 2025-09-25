@@ -93,12 +93,15 @@ public class TimeTableServiceImpl implements TimeTableService {
             timeTable.setCourseTeacher(newCT);
         }
 
-        DayOfWeek day = timeTableUpdateDto.getDayOfWeek() != null ? timeTableUpdateDto.getDayOfWeek(): timeTable.getDayOfWeek();
-        LocalTime start = timeTableUpdateDto.getStartTime() != null ? timeTableUpdateDto.getStartTime(): timeTable.getStartTime();
-        LocalTime end = timeTableUpdateDto.getEndTime() != null ? timeTableUpdateDto.getEndTime(): timeTable.getEndTime();
+        DayOfWeek day = timeTableUpdateDto.getDayOfWeek() != null ? timeTableUpdateDto.getDayOfWeek()
+                : timeTable.getDayOfWeek();
+        LocalTime start = timeTableUpdateDto.getStartTime() != null ? timeTableUpdateDto.getStartTime()
+                : timeTable.getStartTime();
+        LocalTime end = timeTableUpdateDto.getEndTime() != null ? timeTableUpdateDto.getEndTime()
+                : timeTable.getEndTime();
 
         boolean conflict = timeTableRepository
-        .existsByBatchAndDayOfWeekAndStartTimeLessThanAndEndTimeGreaterThanAndTimetableIdNot(
+                .existsByBatchAndDayOfWeekAndStartTimeLessThanAndEndTimeGreaterThanAndTimetableIdNot(
                         timeTable.getBatch(),
                         day,
                         start,

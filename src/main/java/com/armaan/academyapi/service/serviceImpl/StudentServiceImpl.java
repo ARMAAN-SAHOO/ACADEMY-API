@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.dto.request.StudentRequestDto;
 import com.armaan.academyapi.dto.response.StudentResponseDto;
+import com.armaan.academyapi.dto.update.StudentUpdateDto;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Parent;
 import com.armaan.academyapi.entity.Student;
@@ -53,15 +54,22 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Transactional
-    public StudentResponseDto updateStudent(Long studentId, StudentRequestDto studentRequestDto) {
+@Transactional
+public StudentResponseDto updateStudent(Long studentId, StudentUpdateDto studentUpdateDto) {
+    Student student = studentRepository.findById(studentId)
+            .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
-        Parent parent=parentRepository.findById(studentRequestDto.getParentId()).orElseThrow(()->new EntityNotFoundException());
-
-        Student student=studentRepository.findById(studentId).orElseThrow(()->new EntityNotFoundException());
-        studentMapper.update(studentRequestDto, student);
-        return studentMapper.toResponseDto(student);
+    if (studentUpdateDto.getParentId() != null &&
+        !student.getParent().getParentId().equals(studentUpdateDto.getParentId())) {
+        Parent parent = parentRepository.findById(studentUpdateDto.getParentId())
+                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
+        student.setParent(parent);
     }
+
+    studentMapper.update(studentUpdateDto, student);
+    return studentMapper.toResponseDto(student);
+}
+
 
     @Override
     @Transactional

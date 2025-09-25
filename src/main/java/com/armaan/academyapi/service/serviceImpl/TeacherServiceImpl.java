@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.dto.request.TeacherRequestDto;
 import com.armaan.academyapi.dto.response.TeacherResponseDto;
+import com.armaan.academyapi.dto.update.TeacherUpdateDto;
 import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Teacher;
 import com.armaan.academyapi.entity.TimeTable;
@@ -67,12 +68,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional
-    public TeacherResponseDto updateTeacher(Long teacherId, TeacherRequestDto teacherRequestDto) {
+    public TeacherResponseDto updateTeacher(Long teacherId, TeacherUpdateDto teacherUpdateDto) {
 
         Teacher teacher=teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
         
-        teacherMapper.update(teacherRequestDto, teacher);
+        teacherMapper.update(teacherUpdateDto, teacher);
         return teacherMapper.toResponseDto(teacher);
     }
 }
