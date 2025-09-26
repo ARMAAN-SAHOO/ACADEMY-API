@@ -68,6 +68,7 @@ public class ExamServiceImpl implements ExamService {
         Exam exam=examMapper.toEntity(examRequestDto);
         exam.setBatch(batch);
         exam.setCourse(course);
+        exam.setStatus(ExamStatus.SCHEDULED);
         Exam savedExam= examRepository.save(exam);
         return examMapper.toResponseDto(savedExam);
     }

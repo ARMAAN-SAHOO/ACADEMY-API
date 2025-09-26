@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.dto.request.CourseRequestDto;
 import com.armaan.academyapi.dto.response.CourseResponseDto;
+import com.armaan.academyapi.dto.update.CourseUpdateDto;
 import com.armaan.academyapi.entity.Course;
 import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Exam;
@@ -78,12 +79,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public CourseResponseDto updateCourse(Long courseId, CourseRequestDto courseRequestDto) {
+    public CourseResponseDto updateCourse(Long courseId, CourseUpdateDto courseUpdateDto) {
 
         Course course=courseRepository.findById(courseId)
                     .orElseThrow(()->new RuntimeException("Course Not Found"));
 
-        courseMapper.update(courseRequestDto, course);
+        courseMapper.update(courseUpdateDto, course);
         return courseMapper.toResponseDto(course);
     }
 }

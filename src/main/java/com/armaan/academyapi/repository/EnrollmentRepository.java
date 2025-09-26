@@ -14,4 +14,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment,Long>{
 
     List<Enrollment> findAllByBatchBatchId(Long batchId);
 
+    boolean existsByBatchBatchIdAndStudenttudentId(Long batchId, Long studentId);
+
 }

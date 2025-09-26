@@ -3,14 +3,15 @@ package com.armaan.academyapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.armaan.academyapi.entity.ClassSession;
+import com.armaan.academyapi.dto.request.ClassSessionRequestDto;
+import com.armaan.academyapi.dto.response.ClassSessionResponseDto;
 
 public interface ClassSessionService {
-    ClassSession createSession(ClassSession session);
-    ClassSession getSessionById(Long sessionId);
-    List<ClassSession> getSessionsByBatch(Long batchId);
-    List<ClassSession> getSessionsByDate(LocalDate date);
-    List<ClassSession> getSessions(Long batchId, LocalDate date);
-    List<ClassSession> getAllSessions();
+    ClassSessionResponseDto createSession(ClassSessionRequestDto session);
+    ClassSessionResponseDto getSessionById(Long sessionId);
+    List<ClassSessionResponseDto> getSessionsByBatch(Long batchId);
+    List<ClassSessionResponseDto> getSessionsByDate(LocalDate date);
+    List<ClassSessionResponseDto> getSessions(Long batchId, LocalDate date);
+    List<ClassSessionResponseDto> getAllSessions();
 }
 

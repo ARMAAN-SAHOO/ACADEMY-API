@@ -32,6 +32,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
     private final CourseTeacherMapper courseTeacherMapper;
 
     @Override
+    @Transactional
     public CourseTeacherResponseDto assignTeacherToCourse(CourseTeacherRequestDto courseTeacherRequestDto) {
 
         Course course=courseRepository.findById(courseTeacherRequestDto.getCourseId()).orElseThrow(()->new RuntimeException("Course Not Found"+courseTeacherRequestDto.getCourseId()));
@@ -65,14 +66,14 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
     
 
     @Override
-    public List<CourseTeacher> getAllCourseTeachers() {
-        return courseTeacherRepository.findAll();
+    public List<CourseTeacherResponseDto> getAllCourseTeachers() {
+        return courseTeacherRepository.findAll().stream().map(courseTeacherMapper::toResponseDto).toList();
     }
 
     @Override
-    public CourseTeacher getCourseTeacherById(Long courseTeacherId) {
+    public CourseTeacherResponseDto getCourseTeacherById(Long courseTeacherId) {
         CourseTeacher courseTeacher=courseTeacherRepository.findById(courseTeacherId)
         .orElseThrow(()->new RuntimeException("Not Found"));
-        return courseTeacher;
+        return courseTeacherMapper.toResponseDto(courseTeacher);
     }
 }

@@ -5,7 +5,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.CourseTeacherRequestDto;
-import com.armaan.academyapi.dto.response.CourseResponseDto;
+import com.armaan.academyapi.dto.response.CourseTeacherResponseDto;
 import com.armaan.academyapi.dto.update.CourseTeacherUpdateDto;
 import com.armaan.academyapi.entity.CourseTeacher;
 
@@ -15,6 +15,6 @@ import com.armaan.academyapi.entity.CourseTeacher;
     unmappedTargetPolicy =ReportingPolicy.IGNORE
 
 )
-public interface CourseTeacherMapper extends BaseMapper<CourseTeacher,CourseTeacherRequestDto,CourseResponseDto,CourseTeacherUpdateDto>{
+public interface CourseTeacherMapper extends BaseMapper<CourseTeacher,CourseTeacherRequestDto,CourseTeacherResponseDto,CourseTeacherUpdateDto>{
 
 }
