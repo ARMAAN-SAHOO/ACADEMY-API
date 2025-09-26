@@ -31,7 +31,7 @@ public class ClassSessionServiceImpl implements ClassSessionService {
         TimeTable timeTable=timeTableRepository.findById(classSessionRequestDto.getTimetableId()).orElseThrow(()->new EntityNotFoundException());
 
         ClassSession classSession=classSessionMapper.toEntity(classSessionRequestDto);
-        classSession.setTimetable(timeTable);
+        classSession.setTimeTable(timeTable);
         ClassSession savedSession= sessionRepository.save(classSession);
         return classSessionMapper.toResponseDto(savedSession);
     }
@@ -46,7 +46,7 @@ public class ClassSessionServiceImpl implements ClassSessionService {
 
     @Override
     public List<ClassSessionResponseDto> getSessionsByBatch(Long batchId) {
-        return sessionRepository.findByBatchBatchId(batchId).stream().map(classSessionMapper::toResponseDto).toList();
+        return sessionRepository.findByTimeTableBatchBatchId(batchId).stream().map(classSessionMapper::toResponseDto).toList();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ClassSessionServiceImpl implements ClassSessionService {
 
     @Override
     public List<ClassSessionResponseDto> getSessions(Long batchId, LocalDate date) {
-        return sessionRepository.findAllByBatchBatchIdAndDate(batchId,date).stream().map(classSessionMapper::toResponseDto).toList();
+        return sessionRepository.findAllByTimeTableBatchBatchIdAndDate(batchId,date).stream().map(classSessionMapper::toResponseDto).toList();
     }
 
     @Override

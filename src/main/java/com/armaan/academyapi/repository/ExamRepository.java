@@ -19,7 +19,12 @@ public interface ExamRepository extends JpaRepository<Exam,Long>{
 
     List<Exam> findAllByCourseCourseId(Long courseId);
 
-    boolean existsByBatchAndStartTimeLessThanAndEndTimeGreaterThan(Batch batch, LocalDate date, LocalTime endTime,
-            LocalTime startTime);
+    boolean existsByBatchAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
+    Batch batch,
+    LocalDate date,
+    LocalTime endTime,
+    LocalTime startTime
+);
+
 
 }

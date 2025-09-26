@@ -49,7 +49,7 @@ public class TimeTable {
     private LocalTime startTime;  // e.g., "10:00"
     private LocalTime endTime;
 
-    @OneToMany(mappedBy = "timetable")
+    @OneToMany(mappedBy = "timeTable")
     private List<ClassSession> classSessions;
 
 }

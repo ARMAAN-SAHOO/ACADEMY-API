@@ -55,15 +55,17 @@ public class ExamServiceImpl implements ExamService {
         throw new IllegalArgumentException("End time cannot be before start time");
     }
 
-           boolean conflict = examRepository.existsByBatchAndStartTimeLessThanAndEndTimeGreaterThan(
-            batch,
-            examRequestDto.getDate(),
-            examRequestDto.getEndTime(),
-            examRequestDto.getStartTime()
-    );
-        if (conflict) {
-            throw new IllegalArgumentException("Time slot overlaps with an existing timetable for this batch");
-        }
+           boolean conflict = examRepository.existsByBatchAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
+    batch,
+    examRequestDto.getDate(),
+    examRequestDto.getEndTime(),
+    examRequestDto.getStartTime()
+);
+
+if (conflict) {
+    throw new IllegalArgumentException("Time slot overlaps with an existing exam for this batch on this date");
+}
+
 
         Exam exam=examMapper.toEntity(examRequestDto);
         exam.setBatch(batch);
@@ -100,7 +102,6 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ExamResponseDto updateExam(ExamUpdateDto examUpdateDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateExam'");
+        return null;
     }
 }

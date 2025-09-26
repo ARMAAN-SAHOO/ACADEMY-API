@@ -40,7 +40,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         Student student=studentRepository.findById(enrollmentRequestDto.getStudentId()).orElseThrow(()->new EntityNotFoundException());
 
-         if (enrollmentRepository.existsByBatchBatchIdAndStudenttudentId(batch.getBatchId(), student.getStudentId())) {
+         if (enrollmentRepository.existsByBatchBatchIdAndStudentStudentId(batch.getBatchId(), student.getStudentId())) {
         throw new IllegalArgumentException("Student is already enrolled in this batch");
     }
 

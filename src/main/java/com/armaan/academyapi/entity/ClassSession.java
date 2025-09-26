@@ -26,7 +26,7 @@ public class ClassSession {
 
     @ManyToOne
     @JoinColumn(name = "timetable_id")
-    private TimeTable timetable;
+    private TimeTable timeTable;
     
         private Integer slotIndex; 
 }

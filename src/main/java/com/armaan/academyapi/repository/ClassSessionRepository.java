@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClassSessionRepository extends JpaRepository<ClassSession,Long>{
 
-    List<ClassSession> findByBatchBatchId(Long batchId);
+    List<ClassSession> findByTimeTableBatchBatchId(Long batchId);
 
     List<ClassSession> findAllByDate(LocalDate date);
 
-    List<ClassSession> findAllByBatchBatchIdAndDate(Long batchId, LocalDate date);
+    List<ClassSession> findAllByTimeTableBatchBatchIdAndDate(Long batchId, LocalDate date);
 
 }
