@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.Enrollment;
+import com.armaan.academyapi.dto.request.EnrollmentRequestDto;
+import com.armaan.academyapi.dto.response.EnrollmentResponseDto;
 import com.armaan.academyapi.service.EnrollmentService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
     @PostMapping
-    public ResponseEntity<Enrollment> create(@RequestBody Enrollment enrollment) {
-        return ResponseEntity.ok(enrollmentService.enrollStudent(enrollment));
+    public ResponseEntity<EnrollmentResponseDto> create(@RequestBody EnrollmentRequestDto enrollmentRequestDto) {
+        return ResponseEntity.ok(enrollmentService.enrollStudent(enrollmentRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Enrollment> get(@PathVariable Long id) {
+    public ResponseEntity<EnrollmentResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(enrollmentService.getEnrollment(id));
     }
 

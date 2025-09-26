@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.Batch;
+import com.armaan.academyapi.dto.request.BatchRequestDto;
+import com.armaan.academyapi.dto.response.BatchResponseDto;
 import com.armaan.academyapi.service.BatchService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,17 @@ public class BatchController {
     private final BatchService batchService;
 
     @PostMapping
-    public ResponseEntity<Batch> create(@RequestBody Batch batch) {
-        return ResponseEntity.ok(batchService.createBatch(batch));
+    public ResponseEntity<BatchResponseDto> create(@RequestBody BatchRequestDto batchRequestDto) {
+        return ResponseEntity.ok(batchService.createBatch(batchRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Batch> get(@PathVariable Long id) {
+    public ResponseEntity<BatchResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(batchService.getBatchById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Batch>> getAll() {
+    public ResponseEntity<List<BatchResponseDto>> getAll() {
         return ResponseEntity.ok(batchService.getAllBatches());
     }
 

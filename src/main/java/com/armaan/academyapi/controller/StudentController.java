@@ -1,7 +1,8 @@
 package com.armaan.academyapi.controller;
 
-import com.armaan.academyapi.entity.*;
-import com.armaan.academyapi.service.*;
+import com.armaan.academyapi.dto.request.StudentRequestDto;
+import com.armaan.academyapi.dto.response.StudentResponseDto;
+import com.armaan.academyapi.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +16,17 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<Student> create(@RequestBody Student student) {
-        return ResponseEntity.ok(studentService.createStudent(student));
+    public ResponseEntity<StudentResponseDto> create(@RequestBody StudentRequestDto studentRequestDto) {
+        return ResponseEntity.ok(studentService.createStudent(studentRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> get(@PathVariable Long id) {
+    public ResponseEntity<StudentResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAll() {
+    public ResponseEntity<List<StudentResponseDto>> getAll() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 

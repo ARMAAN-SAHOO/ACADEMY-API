@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.Parent;
+import com.armaan.academyapi.dto.request.ParentRequestDto;
+import com.armaan.academyapi.dto.response.ParentResponseDto;
 import com.armaan.academyapi.service.ParentService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,17 @@ public class ParentController {
     private final ParentService parentService;
 
     @PostMapping
-    public ResponseEntity<Parent> create(@RequestBody Parent parent) {
-        return ResponseEntity.ok(parentService.createParent(parent));
+    public ResponseEntity<ParentResponseDto> create(@RequestBody ParentRequestDto parentRequestDto) {
+        return ResponseEntity.ok(parentService.createParent(parentRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Parent> get(@PathVariable Long id) {
+    public ResponseEntity<ParentResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(parentService.getParentById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Parent>> getAll() {
+    public ResponseEntity<List<ParentResponseDto>> getAll() {
         return ResponseEntity.ok(parentService.getAllParents());
     }
 

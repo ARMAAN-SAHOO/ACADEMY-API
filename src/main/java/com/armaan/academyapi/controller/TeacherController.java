@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.Teacher;
+import com.armaan.academyapi.dto.request.TeacherRequestDto;
+import com.armaan.academyapi.dto.response.TeacherResponseDto;
 import com.armaan.academyapi.service.TeacherService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,17 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @PostMapping
-    public ResponseEntity<Teacher> create(@RequestBody Teacher teacher) {
-        return ResponseEntity.ok(teacherService.createTeacher(teacher));
+    public ResponseEntity<TeacherResponseDto> create(@RequestBody TeacherRequestDto teacherRequestDto) {
+        return ResponseEntity.ok(teacherService.createTeacher(teacherRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Teacher> get(@PathVariable Long id) {
+    public ResponseEntity<TeacherResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(teacherService.getTeacherById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Teacher>> getAll() {
+    public ResponseEntity<List<TeacherResponseDto>> getAll() {
         return ResponseEntity.ok(teacherService.getAllTeachers());
     }
 

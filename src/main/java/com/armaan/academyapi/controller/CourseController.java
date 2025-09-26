@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.armaan.academyapi.dto.request.CourseRequestDto;
 import com.armaan.academyapi.dto.response.CourseResponseDto;
+import com.armaan.academyapi.dto.update.CourseUpdateDto;
 import com.armaan.academyapi.service.CourseService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<CourseResponseDto> update(@PathVariable Long id, @RequestBody CourseRequestDto courseRequestDto) {
-        return ResponseEntity.ok(courseService.updateCourse(id, courseRequestDto));
+    public  ResponseEntity<CourseResponseDto> update(@PathVariable Long id, @RequestBody CourseUpdateDto courseUpdateDto) {
+        return ResponseEntity.ok(courseService.updateCourse(id, courseUpdateDto));
     }
 
     @GetMapping("/{id}")

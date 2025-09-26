@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.ClassSession;
+import com.armaan.academyapi.dto.request.ClassSessionRequestDto;
+import com.armaan.academyapi.dto.response.ClassSessionResponseDto;
 import com.armaan.academyapi.service.ClassSessionService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,17 +23,17 @@ public class ClassSessionController {
     private final ClassSessionService classSessionService;
 
     @PostMapping
-    public ResponseEntity<ClassSession> create(@RequestBody ClassSession session) {
-        return ResponseEntity.ok(classSessionService.createSession(session));
+    public ResponseEntity<ClassSessionResponseDto> create(@RequestBody ClassSessionRequestDto classSessionRequestDto) {
+        return ResponseEntity.ok(classSessionService.createSession(classSessionRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClassSession> get(@PathVariable Long id) {
+    public ResponseEntity<ClassSessionResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(classSessionService.getSessionById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ClassSession>> getAll() {
+    public ResponseEntity<List<ClassSessionResponseDto>> getAll() {
         return ResponseEntity.ok(classSessionService.getAllSessions());
     }
 }

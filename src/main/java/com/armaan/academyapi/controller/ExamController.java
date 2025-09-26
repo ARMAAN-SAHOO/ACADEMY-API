@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.armaan.academyapi.entity.Exam;
+import com.armaan.academyapi.dto.request.ExamRequestDto;
+import com.armaan.academyapi.dto.response.ExamResponseDto;
 import com.armaan.academyapi.service.ExamService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,17 @@ public class ExamController {
     private final ExamService examService;
 
     @PostMapping
-    public ResponseEntity<Exam> create(@RequestBody Exam exam) {
-        return ResponseEntity.ok(examService.createExam(exam));
+    public ResponseEntity<ExamResponseDto> create(@RequestBody ExamRequestDto examRequestDto) {
+        return ResponseEntity.ok(examService.createExam(examRequestDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Exam> get(@PathVariable Long id) {
+    public ResponseEntity<ExamResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(examService.getExamById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Exam>> getAll() {
+    public ResponseEntity<List<ExamResponseDto>> getAll() {
         return ResponseEntity.ok(examService.getAllExams());
     }
 
