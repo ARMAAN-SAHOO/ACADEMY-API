@@ -1,9 +1,12 @@
 package com.armaan.academyapi.repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.armaan.academyapi.entity.Batch;
 import com.armaan.academyapi.entity.Exam;
 
 import org.springframework.stereotype.Repository;
@@ -15,5 +18,8 @@ public interface ExamRepository extends JpaRepository<Exam,Long>{
     List<Exam> findAllByBatchBatchId(Long batchId);
 
     List<Exam> findAllByCourseCourseId(Long courseId);
+
+    boolean existsByBatchAndStartTimeLessThanAndEndTimeGreaterThan(Batch batch, LocalDate date, LocalTime endTime,
+            LocalTime startTime);
 
 }

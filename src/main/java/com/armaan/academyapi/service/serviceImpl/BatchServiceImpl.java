@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.dto.request.BatchRequestDto;
 import com.armaan.academyapi.dto.response.BatchResponseDto;
+import com.armaan.academyapi.dto.update.BatchUpdateDto;
 import com.armaan.academyapi.entity.Batch;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Exam;
@@ -78,10 +79,10 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     @Transactional
-    public BatchResponseDto updateBatch(Long batchId, BatchRequestDto batchRequestDto) {
+    public BatchResponseDto updateBatch(Long batchId, BatchUpdateDto batchUpdateDto) {
         Batch batch =batchRepository.findById(batchId)
                 .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
-        batchMapper.update(batchRequestDto, batch);
+        batchMapper.update(batchUpdateDto, batch);
         return batchMapper.toResponseDto(batch);
     }
 }

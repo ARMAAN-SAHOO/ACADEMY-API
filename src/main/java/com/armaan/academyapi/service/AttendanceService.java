@@ -9,6 +9,5 @@ public interface AttendanceService {
 
     AttendanceResponseDto markAttendance(AttendanceRequestDto attendanceRequestDto);
     List<AttendanceResponseDto> getAttendance(Long studentId);
-   // List<Attendance> getAttendanceForBatch(Long batchId, LocalDate date);
 }
 
