@@ -1,17 +1,21 @@
 package com.armaan.academyapi.dto.request;
 
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PaymentRequestDto {
-
-     private Long enrollmentId;   // Link payment to a student enrollment
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private String paymentMode;   // UPI, Card, NetBanking, etc.
     private Double amount;
-    private LocalDate paymentDate;
-    private String status;       // PAID or PENDING
-    private String paymentMode;  // e.g., CASH, CARD, ONLINE
+    private String currency;      // INR
+    private Long enrollmentId;    // link to student enrollment
+    private Long batchId;         // optional, if paying for a batch
+    private String status;        // SUCCESS, FAILED, PENDING
 }

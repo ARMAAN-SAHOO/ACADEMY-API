@@ -1,18 +1,26 @@
 package com.armaan.academyapi.dto.response;
 
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PaymentResponseDto {
-
     private Long paymentId;
-    private Long enrollmentId;   // Link payment to a student enrollment
     private Double amount;
-    private LocalDate paymentDate;
-    private String status;       // PAID or PENDING
-    private String paymentMode;  // e.g., CASH, CARD, ONLINE
+    private String currency;
+    private String status;
+    private String paymentMode;
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private Long enrollmentId;
+    private Long batchId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

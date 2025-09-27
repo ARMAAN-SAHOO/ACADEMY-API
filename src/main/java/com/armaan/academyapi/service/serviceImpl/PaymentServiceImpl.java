@@ -1,62 +1,50 @@
 package com.armaan.academyapi.service.serviceImpl;
 
 import java.util.List;
-
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.armaan.academyapi.dto.request.PaymentRequestDto;
+import com.armaan.academyapi.dto.response.PaymentResponseDto;
 import com.armaan.academyapi.entity.Payment;
+import com.armaan.academyapi.mapper.PaymentMapper;
 import com.armaan.academyapi.repository.PaymentRepository;
 import com.armaan.academyapi.service.PaymentService;
-import com.razorpay.Order;
-import com.razorpay.RazorpayClient;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final RazorpayClient razorpayClient;
     private final PaymentRepository paymentRepository;
+    private final PaymentMapper paymentMapper;
 
-
-    public String createOrder(int amountInRupees,String receiptId) throws Exception{
-
-        JSONObject orderRequest=new JSONObject();
-        orderRequest.put("amount", amountInRupees * 100);
-        orderRequest.put("currency", "INR");
-        orderRequest.put("receipt", receiptId);
-
-        Order order=razorpayClient.orders.create(orderRequest);
-        return order.toString();
-
+    @Override
+    public PaymentResponseDto recordPayment(PaymentRequestDto paymentRequestDto) {
+        Payment payment=paymentMapper.toEntity(paymentRequestDto);
+        Payment savedPayment= paymentRepository.save(payment);
+        return paymentMapper.toResponseDto(savedPayment);
     }
 
     @Override
-    public Payment recordPayment(Payment payment) {
-        return paymentRepository.save(payment);
+    public List<PaymentResponseDto> getPaymentsForStudent(Long studentId) {
+        return paymentRepository.findAllByEnrollmentStudentStudentId(studentId).stream().map(paymentMapper::toResponseDto).toList();
     }
 
     @Override
-    public List<Payment> getPaymentsForStudent(Long studentId) {
-        return paymentRepository.findAllByEnrollmentStudentStudentId(studentId);
-    }
-
-    @Override
-    public Payment getPaymentById(Long paymentId) {
-        return paymentRepository.findById(paymentId)
+    public PaymentResponseDto getPaymentById(Long paymentId) {
+        Payment payment= paymentRepository.findById(paymentId)
                 .orElseThrow(()-> new RuntimeException("Payment not found"));
+        return paymentMapper.toResponseDto(payment);
     }
 
     @Override
-    public List<Payment> getPaymentsForEnrollment(Long enrollmentId) {
-        return paymentRepository.findAllByEnrollmentEnrollmentId(enrollmentId);
+    public List<PaymentResponseDto> getPaymentsForEnrollment(Long enrollmentId) {
+        return paymentRepository.findAllByEnrollmentEnrollmentId(enrollmentId).stream().map(paymentMapper::toResponseDto).toList();
     }
 
     @Override
-    public List<Payment> getAllPayments() {
-        return paymentRepository.findAll();
+    public List<PaymentResponseDto> getAllPayments() {
+        return paymentRepository.findAll().stream().map(paymentMapper::toResponseDto).toList();
     }
 }
 
