@@ -32,9 +32,9 @@ public class Teacher {
 
      private boolean deleted = false; 
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    // @OneToOne
+    // @JoinColumn(name = "user_id")
+    // private User user;
 
     
     @OneToMany(mappedBy = "teacher")

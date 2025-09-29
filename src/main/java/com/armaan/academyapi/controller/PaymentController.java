@@ -35,9 +35,17 @@ public class PaymentController {
     // Razorpay-related
     @PostMapping("/create-order")
     public ResponseEntity<OrderResponseDto> createOrder(@RequestBody Map<String, Object> request) throws Exception {
-        int amount = (int) request.get("amount");
-        String receiptId = UUID.randomUUID().toString();
-        return ResponseEntity.ok(paymentGatewayService.createOrder(amount, receiptId));
+            Number amountNumber = (Number) request.get("amount");   // handles Integer/Double
+            int amountInRupees = amountNumber.intValue();          // safe conversion
+            String receiptId = UUID.randomUUID().toString();
+
+            OrderResponseDto order=paymentGatewayService.createOrder(amountInRupees, receiptId);
+
+                System.out.println("DEBUG - createOrder request amountInRupees=" + amountInRupees);
+                 System.out.println("DEBUG - createOrder returning order.amount (paise) = " + order.getAmount());
+                System.out.println("DEBUG - full order dto = " + order);
+
+        return ResponseEntity.ok(order);
     }
 }
 
