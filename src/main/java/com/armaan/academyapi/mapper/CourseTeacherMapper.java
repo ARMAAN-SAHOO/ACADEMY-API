@@ -3,6 +3,7 @@ package com.armaan.academyapi.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.util.ObjectUtils;
 
 import com.armaan.academyapi.dto.request.CourseTeacherRequestDto;
 import com.armaan.academyapi.dto.response.CourseTeacherResponseDto;
@@ -16,5 +17,13 @@ import com.armaan.academyapi.entity.CourseTeacher;
 
 )
 public interface CourseTeacherMapper extends BaseMapper<CourseTeacher,CourseTeacherRequestDto,CourseTeacherResponseDto,CourseTeacherUpdateDto>{
+
+
+     @Override
+    default CourseTeacherResponseDto toResponseDto(CourseTeacher entity) {
+        if (entity==null) {
+            
+        }
+    } 
 
 }

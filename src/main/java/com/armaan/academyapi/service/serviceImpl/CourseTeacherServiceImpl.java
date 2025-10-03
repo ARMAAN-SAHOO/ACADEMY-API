@@ -41,7 +41,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
         if(courseTeacherRepository.existsByCourseCourseIdAndTeacherTeacherId(courseTeacherRequestDto.getCourseId(),courseTeacherRequestDto.getTeacherId())){
                     throw new RuntimeException("Already assigned");
         }    
-
+        System.out.println("Got from request is "+courseTeacherRequestDto.getCourseId()+" "+courseTeacherRequestDto.getTeacherId());
         CourseTeacher courseTeacher =courseTeacherMapper.toEntity(courseTeacherRequestDto);       
         courseTeacher.setCourse(course);
         courseTeacher.setTeacher(teacher);
