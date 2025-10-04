@@ -9,12 +9,12 @@ import com.armaan.academyapi.dto.request.ClassSessionRequestDto;
 import com.armaan.academyapi.dto.response.ClassSessionResponseDto;
 import com.armaan.academyapi.entity.ClassSession;
 import com.armaan.academyapi.entity.TimeTable;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.ClassSessionMapper;
 import com.armaan.academyapi.repository.ClassSessionRepository;
 import com.armaan.academyapi.repository.TimeTableRepository;
 import com.armaan.academyapi.service.ClassSessionService;
-
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,9 +26,11 @@ public class ClassSessionServiceImpl implements ClassSessionService {
     private final TimeTableRepository timeTableRepository;
 
     @Override
+    @Transactional
     public ClassSessionResponseDto createSession(ClassSessionRequestDto classSessionRequestDto) {
 
-        TimeTable timeTable=timeTableRepository.findById(classSessionRequestDto.getTimetableId()).orElseThrow(()->new EntityNotFoundException());
+        TimeTable timeTable=timeTableRepository.findById(classSessionRequestDto.getTimetableId())
+        .orElseThrow(()->new ResourceNotFoundException("TimeTable", classSessionRequestDto.getTimetableId()));
 
         ClassSession classSession=classSessionMapper.toEntity(classSessionRequestDto);
         classSession.setTimeTable(timeTable);
@@ -39,7 +41,7 @@ public class ClassSessionServiceImpl implements ClassSessionService {
     @Override
     public ClassSessionResponseDto getSessionById(Long sessionId) {
         ClassSession classSession= sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new EntityNotFoundException("Session not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Class_Session", sessionId));
         
                 return classSessionMapper.toResponseDto(classSession);
     }

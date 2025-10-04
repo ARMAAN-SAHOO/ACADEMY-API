@@ -11,14 +11,13 @@ import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Exam;
 import com.armaan.academyapi.entity.TimeTable;
 import com.armaan.academyapi.enums.ExamStatus;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.BatchMapper;
 import com.armaan.academyapi.repository.BatchRepository;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.repository.ExamRepository;
 import com.armaan.academyapi.repository.TimeTableRepository;
 import com.armaan.academyapi.service.BatchService;
-
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -45,9 +44,8 @@ public class BatchServiceImpl implements BatchService {
     public BatchResponseDto getBatchById(Long batchId) {
 
         Batch batch= batchRepository.findById(batchId)
-                .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("batch", batchId));
         return batchMapper.toResponseDto(batch);
-        
     }
 
     @Override
@@ -58,9 +56,8 @@ public class BatchServiceImpl implements BatchService {
     @Override
     @Transactional
     public void deleteBatch(Long batchId) {
-
         Batch batch=batchRepository.findById(batchId)
-                .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("batch", batchId));
         
         batch.setDeleted(true);
 
@@ -73,15 +70,13 @@ public class BatchServiceImpl implements BatchService {
         //if user agrees
         List<Exam> exams=examRepository.findAllByBatchBatchId(batchId);
         exams.forEach(exam->exam.setStatus(ExamStatus.CANCELLED));
-
-
     }
 
     @Override
     @Transactional
     public BatchResponseDto updateBatch(Long batchId, BatchUpdateDto batchUpdateDto) {
         Batch batch =batchRepository.findById(batchId)
-                .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("batch", batchId));
         batchMapper.update(batchUpdateDto, batch);
         return batchMapper.toResponseDto(batch);
     }

@@ -13,13 +13,13 @@ import com.armaan.academyapi.entity.Batch;
 import com.armaan.academyapi.entity.Course;
 import com.armaan.academyapi.entity.Exam;
 import com.armaan.academyapi.enums.ExamStatus;
+import com.armaan.academyapi.exception.BusinessException;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.ExamMapper;
 import com.armaan.academyapi.repository.BatchRepository;
 import com.armaan.academyapi.repository.CourseRepository;
 import com.armaan.academyapi.repository.ExamRepository;
 import com.armaan.academyapi.service.ExamService;
-
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -36,23 +36,25 @@ public class ExamServiceImpl implements ExamService {
     @Transactional
     public ExamResponseDto createExam(ExamRequestDto examRequestDto) {
 
-        Batch batch=batchRepository.findById(examRequestDto.getBatchId()).orElseThrow(()->new EntityNotFoundException());
-        Course course=courseRepository.findById(examRequestDto.getCourseId()).orElseThrow(()->new EntityNotFoundException());
+        Batch batch=batchRepository.findById(examRequestDto.getBatchId())
+        .orElseThrow(()->new ResourceNotFoundException("Batch",examRequestDto.getBatchId()));
 
+        Course course=courseRepository.findById(examRequestDto.getCourseId())
+        .orElseThrow(()->new ResourceNotFoundException("Course",examRequestDto.getCourseId()));
 
         LocalDate today=LocalDate.now();
         LocalTime now=LocalTime.now();
 
         if(examRequestDto.getDate().isBefore(today)){
-                    throw new IllegalArgumentException("Exam date cannot be in the past");
+                    throw new BusinessException("Exam date cannot be in the past");
         }
         
         if(examRequestDto.getDate().isEqual(today) && examRequestDto.getStartTime().isBefore(now)){
-                    throw new IllegalArgumentException("Exam time cannot be in the past");
+                    throw new BusinessException("Exam time cannot be in the past");
         }
 
             if (examRequestDto.getEndTime().isBefore(examRequestDto.getStartTime())) {
-        throw new IllegalArgumentException("End time cannot be before start time");
+        throw new BusinessException("End time cannot be before start time");
     }
 
            boolean conflict = examRepository.existsByBatchAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
@@ -63,7 +65,7 @@ public class ExamServiceImpl implements ExamService {
 );
 
 if (conflict) {
-    throw new IllegalArgumentException("Time slot overlaps with an existing exam for this batch on this date");
+    throw new BusinessException("Time slot overlaps with an existing exam for this batch on this date");
 }
 
 
@@ -78,7 +80,7 @@ if (conflict) {
     @Override
     public ExamResponseDto getExamById(Long examId) {
         Exam exam= examRepository.findById(examId)
-                .orElseThrow(() -> new EntityNotFoundException("Exam not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Exam",examId));
             return examMapper.toResponseDto(exam);
     }
 
@@ -91,7 +93,7 @@ if (conflict) {
     @Transactional
     public void deleteExam(Long examId) {
         Exam exam =examRepository.findById(examId)
-                .orElseThrow(() -> new EntityNotFoundException("Exam not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Exam",examId));
         exam.setStatus(ExamStatus.CANCELLED);
     }
 
@@ -102,6 +104,10 @@ if (conflict) {
 
     @Override
     public ExamResponseDto updateExam(ExamUpdateDto examUpdateDto) {
-        return null;
+        Exam exam =examRepository.findById(examUpdateDto.getExamId())
+                .orElseThrow(() -> new ResourceNotFoundException("Exam",examUpdateDto.getExamId()));
+
+        examMapper.update(examUpdateDto, exam);
+        return examMapper.toResponseDto(exam);
     }
 }

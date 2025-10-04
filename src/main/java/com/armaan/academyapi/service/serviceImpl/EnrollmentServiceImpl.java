@@ -11,14 +11,14 @@ import com.armaan.academyapi.dto.response.StudentResponseDto;
 import com.armaan.academyapi.entity.Batch;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Student;
+import com.armaan.academyapi.exception.BusinessException;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.EnrollmentMapper;
 import com.armaan.academyapi.mapper.StudentMapper;
 import com.armaan.academyapi.repository.BatchRepository;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.repository.StudentRepository;
 import com.armaan.academyapi.service.EnrollmentService;
-
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -36,12 +36,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Transactional
     public EnrollmentResponseDto enrollStudent(EnrollmentRequestDto enrollmentRequestDto) {
 
-        Batch batch=batchRepository.findById(enrollmentRequestDto.getBatchId()).orElseThrow(()->new EntityNotFoundException());
+        Batch batch=batchRepository.findById(enrollmentRequestDto.getBatchId())
+        .orElseThrow(()->new ResourceNotFoundException("Course", enrollmentRequestDto.getBatchId()));
 
-        Student student=studentRepository.findById(enrollmentRequestDto.getStudentId()).orElseThrow(()->new EntityNotFoundException());
+        Student student=studentRepository.findById(enrollmentRequestDto.getStudentId())
+        .orElseThrow(()->new ResourceNotFoundException("Course", enrollmentRequestDto.getStudentId()));
 
          if (enrollmentRepository.existsByBatchBatchIdAndStudentStudentId(batch.getBatchId(), student.getStudentId())) {
-        throw new IllegalArgumentException("Student is already enrolled in this batch");
+        throw new BusinessException("Student is already enrolled in this batch");
     }
 
         Enrollment enrollment=enrollmentMapper.toEntity(enrollmentRequestDto);
@@ -55,7 +57,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public EnrollmentResponseDto getEnrollment(Long enrollmentId) {
         Enrollment enrollment=enrollmentRepository.findById(enrollmentId)
-        .orElseThrow(()->new RuntimeException("Not FOund Buddy"));
+        .orElseThrow(()->new ResourceNotFoundException("Enrollment",enrollmentId));
         return enrollmentMapper.toResponseDto(enrollment);
     }
 
@@ -80,7 +82,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void cancelEnrollment(Long enrollmentId) {
 
         Enrollment enrollment=enrollmentRepository.findById(enrollmentId)
-        .orElseThrow(()->new RuntimeException("Not FOund Buddy"));
+        .orElseThrow(()->new ResourceNotFoundException("Enrollment",enrollmentId));
 
         enrollment.setDeleted(true);
         

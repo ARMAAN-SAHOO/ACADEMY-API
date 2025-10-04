@@ -13,14 +13,13 @@ import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Exam;
 import com.armaan.academyapi.entity.TimeTable;
 import com.armaan.academyapi.enums.ExamStatus;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.CourseMapper;
 import com.armaan.academyapi.repository.CourseRepository;
 import com.armaan.academyapi.repository.CourseTeacherRepository;
 import com.armaan.academyapi.repository.ExamRepository;
 import com.armaan.academyapi.repository.TimeTableRepository;
 import com.armaan.academyapi.service.CourseService;
-
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +34,7 @@ public class CourseServiceImpl implements CourseService {
     private final ExamRepository examRepository;
 
     @Override
+    @Transactional
     public CourseResponseDto createCourse(CourseRequestDto courseRequestDto) {
         Course course=courseMapper.toEntity(courseRequestDto);
         courseRepository.save(course);
@@ -45,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseResponseDto getCourseById(Long courseId) {
 
         Course course=courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course", courseId));
         
         return courseMapper.toResponseDto(course);
     }
@@ -63,7 +63,7 @@ public class CourseServiceImpl implements CourseService {
     public void deleteCourse(Long courseId) {
         
         Course course=courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course", courseId));
 
         course.setDeleted(true);
 
@@ -82,7 +82,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseResponseDto updateCourse(Long courseId, CourseUpdateDto courseUpdateDto) {
 
         Course course=courseRepository.findById(courseId)
-                    .orElseThrow(()->new RuntimeException("Course Not Found"));
+                    .orElseThrow(()->new ResourceNotFoundException("Course", courseId));
 
         courseMapper.update(courseUpdateDto, course);
         return courseMapper.toResponseDto(course);

@@ -10,6 +10,8 @@ import com.armaan.academyapi.entity.Course;
 import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Teacher;
 import com.armaan.academyapi.entity.TimeTable;
+import com.armaan.academyapi.exception.BusinessException;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.CourseTeacherMapper;
 import com.armaan.academyapi.repository.CourseRepository;
 import com.armaan.academyapi.repository.CourseTeacherRepository;
@@ -35,13 +37,16 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
     @Transactional
     public CourseTeacherResponseDto assignTeacherToCourse(CourseTeacherRequestDto courseTeacherRequestDto) {
 
-        Course course=courseRepository.findById(courseTeacherRequestDto.getCourseId()).orElseThrow(()->new RuntimeException("Course Not Found"+courseTeacherRequestDto.getCourseId()));
-        Teacher teacher=teacherRepository.findById(courseTeacherRequestDto.getTeacherId()).orElseThrow(()->new RuntimeException("Teacher Not Found"+courseTeacherRequestDto.getTeacherId()));
+        Course course=courseRepository.findById(courseTeacherRequestDto.getCourseId())
+        .orElseThrow(()->new ResourceNotFoundException("Course", courseTeacherRequestDto.getCourseId()));
+
+        Teacher teacher=teacherRepository.findById(courseTeacherRequestDto.getTeacherId())
+        .orElseThrow(()->new ResourceNotFoundException("Teacher", courseTeacherRequestDto.getTeacherId()));
 
         if(courseTeacherRepository.existsByCourseCourseIdAndTeacherTeacherId(courseTeacherRequestDto.getCourseId(),courseTeacherRequestDto.getTeacherId())){
-                    throw new RuntimeException("Already assigned");
+                    throw new BusinessException("Already assigned the teacher to this course");
         }    
-        System.out.println("Got from request is "+courseTeacherRequestDto.getCourseId()+" "+courseTeacherRequestDto.getTeacherId());
+
         CourseTeacher courseTeacher =courseTeacherMapper.toEntity(courseTeacherRequestDto);       
         courseTeacher.setCourse(course);
         courseTeacher.setTeacher(teacher);
@@ -55,7 +60,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
     public void removeTeacherFromCourse(Long courseTeacherId) {
 
         CourseTeacher courseTeacher=courseTeacherRepository.findById(courseTeacherId)
-        .orElseThrow(()->new RuntimeException("Not Found"));
+        .orElseThrow(()->new ResourceNotFoundException("CourseTeacher", courseTeacherId));
 
         courseTeacher.setDeleted(true);
 
@@ -73,7 +78,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
     @Override
     public CourseTeacherResponseDto getCourseTeacherById(Long courseTeacherId) {
         CourseTeacher courseTeacher=courseTeacherRepository.findById(courseTeacherId)
-        .orElseThrow(()->new RuntimeException("Not Found"));
+        .orElseThrow(()->new ResourceNotFoundException("Teacher assigned to course", courseTeacherId));
         return courseTeacherMapper.toResponseDto(courseTeacher);
     }
 }

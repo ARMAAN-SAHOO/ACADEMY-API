@@ -13,8 +13,7 @@ import lombok.Setter;
 @Setter
 public class ExamUpdateDto {
 
-    private Long batchId;
-    private Long courseId;
+    private Long examId;
     
     private String name;
 
