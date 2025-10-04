@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class AttendanceUpdateDto {
 
+    
      private Long enrollmentId;
     private LocalDateTime time; 
     private String sessionBitmask;

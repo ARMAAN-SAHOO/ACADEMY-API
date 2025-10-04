@@ -41,7 +41,11 @@ boolean existsByBatchAndDayOfWeekAndStartTimeLessThanAndEndTimeGreaterThanAndTim
 );
 
 
-        List<TimeTable> findAllByBatchBatchIdOrderByDayOfWeekAscStartTimeAsc(Long batchId);
+    List<TimeTable> findAllByBatchBatchIdOrderByDayOfWeekAscStartTimeAsc(Long batchId);
 
+
+    @Query("SELECT COUNT(t) FROM TimeTable t WHERE t.batch.batchId=:batchId"+
+    " AND t.dayOfWeek = :dayOfWeek AND t.deleted = false")
+    int countByBatchAndDayOfWeek(@Param("batchId") Long batchId,@Param("dayOfWeek") DayOfWeek dayOfWeek);
 
 }

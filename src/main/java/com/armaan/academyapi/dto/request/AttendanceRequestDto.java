@@ -1,6 +1,6 @@
 package com.armaan.academyapi.dto.request;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +10,6 @@ import lombok.Setter;
 public class AttendanceRequestDto {
 
      private Long enrollmentId;
-    private LocalDateTime time; 
+    private LocalDate date; 
     private String sessionBitmask;
 }
