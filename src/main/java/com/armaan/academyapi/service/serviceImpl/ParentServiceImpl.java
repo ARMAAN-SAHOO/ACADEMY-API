@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import com.armaan.academyapi.dto.request.ParentRequestDto;
 import com.armaan.academyapi.dto.response.ParentResponseDto;
 import com.armaan.academyapi.entity.Parent;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.ParentMapper;
 import com.armaan.academyapi.repository.ParentRepository;
 import com.armaan.academyapi.service.ParentService;
-
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +22,7 @@ public class ParentServiceImpl implements ParentService {
     private final ParentMapper parentMapper;
 
     @Override
+    @Transactional
     public ParentResponseDto createParent(ParentRequestDto parentRequestDto) {
         Parent parent=parentMapper.toEntity(parentRequestDto);
         Parent savedParent=parentRepository.save(parent);
@@ -31,7 +32,7 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public ParentResponseDto getParentById(Long parentId) {
         Parent parent= parentRepository.findById(parentId)
-                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Parent",parentId));
 
         return parentMapper.toResponseDto(parent);
     }
@@ -44,7 +45,7 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public void deleteParent(Long parentId) {
         Parent parent= parentRepository.findById(parentId)
-                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Parent",parentId));
         parent.setDeleted(true);
     }
 }

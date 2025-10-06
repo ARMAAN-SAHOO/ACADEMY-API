@@ -10,6 +10,7 @@ import com.armaan.academyapi.dto.response.EnrollmentResponseDto;
 import com.armaan.academyapi.dto.response.StudentResponseDto;
 import com.armaan.academyapi.entity.Batch;
 import com.armaan.academyapi.entity.Enrollment;
+import com.armaan.academyapi.entity.EnrollmentStatus;
 import com.armaan.academyapi.entity.Student;
 import com.armaan.academyapi.exception.BusinessException;
 import com.armaan.academyapi.exception.ResourceNotFoundException;
@@ -37,7 +38,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public EnrollmentResponseDto enrollStudent(EnrollmentRequestDto enrollmentRequestDto) {
 
         Batch batch=batchRepository.findById(enrollmentRequestDto.getBatchId())
-        .orElseThrow(()->new ResourceNotFoundException("Course", enrollmentRequestDto.getBatchId()));
+        .orElseThrow(()->new ResourceNotFoundException("Batch", enrollmentRequestDto.getBatchId()));
 
         Student student=studentRepository.findById(enrollmentRequestDto.getStudentId())
         .orElseThrow(()->new ResourceNotFoundException("Course", enrollmentRequestDto.getStudentId()));
@@ -50,6 +51,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollment.setBatch(batch);
         enrollment.setStudent(student);
         enrollment.setEnrolledOn(LocalDate.now());
+        enrollment.setStatus(EnrollmentStatus.ENROLLED);
+        enrollment.setPaymetDue(LocalDate.now().plusDays(5));
         Enrollment savedEnrollment= enrollmentRepository.save(enrollment);
         return enrollmentMapper.toResponseDto(savedEnrollment);
     }
@@ -85,6 +88,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         .orElseThrow(()->new ResourceNotFoundException("Enrollment",enrollmentId));
 
         enrollment.setDeleted(true);
+        enrollment.setStatus(EnrollmentStatus.CANCELLED);
         
     }
 

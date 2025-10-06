@@ -7,6 +7,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +32,11 @@ public class Enrollment {
     private Long enrollmentId;
 
     private boolean deleted = false; 
+
+    @Enumerated(EnumType.STRING)
+    private EnrollmentStatus status;
+
+    private LocalDate paymetDue;
 
     @ManyToOne
     @JoinColumn(name = "student_id")

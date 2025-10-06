@@ -16,6 +16,6 @@ public class PaymentRequestDto {
     private Double amount;
     private String currency;      // INR
     private Long enrollmentId;    // link to student enrollment
-    private Long batchId;         // optional, if paying for a batch
+    //private Long batchId;         // optional, if paying for a batch
     private String status;        // SUCCESS, FAILED, PENDING
 }
