@@ -1,14 +1,11 @@
 package com.armaan.academyapi.service.serviceImpl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.armaan.academyapi.dto.request.PaymentRequestDto;
 import com.armaan.academyapi.dto.request.PaymentVerificationRequestDto;
 import com.armaan.academyapi.dto.response.OrderResponseDto;
 import com.armaan.academyapi.dto.response.PaymentResponseDto;
@@ -18,7 +15,6 @@ import com.armaan.academyapi.entity.Payment;
 import com.armaan.academyapi.entity.PaymentStatus;
 import com.armaan.academyapi.exception.BusinessException;
 import com.armaan.academyapi.exception.ResourceNotFoundException;
-import com.armaan.academyapi.mapper.EnrollmentMapper;
 import com.armaan.academyapi.mapper.PaymentMapper;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.repository.PaymentRepository;
@@ -48,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
    
     @Override
     @Transactional
-    public OrderResponseDto initiatePayment(Long enrollmentId) {
+    public OrderResponseDto initiatePayment(Long enrollmentId){
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment", enrollmentId));
 
@@ -64,9 +60,9 @@ public class PaymentServiceImpl implements PaymentService {
         int amount = enrollment.getBatch().getFee();
         String receiptId = "enroll_" + enrollmentId + "_" + System.currentTimeMillis();
 
-        OrderResponseDto order = paymentGatewayService.createOrder(amount, receiptId);
-
-        Payment payment = Payment.builder()
+        try {
+            OrderResponseDto order = paymentGatewayService.createOrder(amount, receiptId);
+            Payment payment = Payment.builder()
                 .enrollment(enrollment)
                 .razorpayOrderId(order.getId())
                 .amount((double) amount)
@@ -77,6 +73,9 @@ public class PaymentServiceImpl implements PaymentService {
 
         paymentRepository.save(payment);
         return order;
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     /**
@@ -129,12 +128,11 @@ public PaymentResponseDto confirmPayment(PaymentVerificationRequestDto dto) {
      */
     @Override
     public List<PaymentResponseDto> getPaymentsForEnrollment(Long enrollmentId) {
-        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
+        enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment", enrollmentId));
 
         return paymentRepository.findByEnrollmentEnrollmentId(enrollmentId)
-                .stream()
-                .map(paymentMapper::toResponseDto)
+        .stream().map(paymentMapper::toResponseDto)
                 .toList();
     }
 

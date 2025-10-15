@@ -25,6 +25,8 @@ public interface PaymentRepository extends JpaRepository<Payment,Long>{
 
     List<Payment> findByStatusAndCreatedAtBefore(PaymentStatus created, LocalDateTime expiryThreshold);
 
-    Optional<Enrollment> findByEnrollmentEnrollmentId(Long enrollmentId);
+    Optional<Payment> findByEnrollmentEnrollmentId(Long enrollmentId);
+
+    Optional<Payment> findByRazorpayOrderId(String razorpayOrderId);
 
 }

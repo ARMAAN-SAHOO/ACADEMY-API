@@ -1,8 +1,7 @@
 package com.armaan.academyapi.service;
 
 import java.util.List;
-
-import com.armaan.academyapi.dto.request.PaymentRequestDto;
+import com.armaan.academyapi.dto.request.PaymentVerificationRequestDto;
 import com.armaan.academyapi.dto.response.OrderResponseDto;
 import com.armaan.academyapi.dto.response.PaymentResponseDto;
 

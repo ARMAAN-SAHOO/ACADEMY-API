@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class BatchRequestDto {
         private String name;
+        private int fees;
 }
