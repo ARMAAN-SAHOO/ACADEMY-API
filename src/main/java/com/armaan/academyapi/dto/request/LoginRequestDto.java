@@ -1,6 +1,4 @@
-package com.armaan.academyapi.dto.response;
-
-import com.armaan.academyapi.enums.Role;
+package com.armaan.academyapi.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
-
-    private Long id;
-
+public class LoginRequestDto {
     private String email;
-
-    private Role role;
+    private String password;
 }
