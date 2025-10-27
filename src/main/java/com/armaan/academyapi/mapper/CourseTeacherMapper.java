@@ -3,7 +3,6 @@ package com.armaan.academyapi.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.util.ObjectUtils;
 
 import com.armaan.academyapi.dto.request.CourseTeacherRequestDto;
 import com.armaan.academyapi.dto.response.CourseTeacherResponseDto;
@@ -24,6 +23,7 @@ public interface CourseTeacherMapper extends BaseMapper<CourseTeacher,CourseTeac
         if (entity==null) {
             
         }
+        return null;
     } 
 
 }
