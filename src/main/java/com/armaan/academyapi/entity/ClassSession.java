@@ -28,5 +28,5 @@ public class ClassSession {
     @JoinColumn(name = "timetable_id")
     private TimeTable timeTable;
     
-        private Integer slotIndex; 
+    private Integer slotIndex; 
 }

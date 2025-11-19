@@ -41,4 +41,6 @@ public class CourseTeacher {
 
     @OneToMany(mappedBy="courseTeacher")
     private List<TimeTable> timeTables;
+
+    
 }

@@ -10,10 +10,10 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addCorsMappings(@SuppressWarnings("null") CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://suspectless-zaire-agitatorial.ngrok-free.dev")
+                .allowedOrigins("*")
                 .allowedMethods("GET","POST","PUT","DELETE")
                 .allowedHeaders("*");
-        WebMvcConfigurer.super.addCorsMappings(registry);
+        //WebMvcConfigurer.super.addCorsMappings(registry);
     }
 
 }

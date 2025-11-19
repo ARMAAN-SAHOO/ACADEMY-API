@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AttendanceUpdateDto {
+    private Long attendanceId;
     private LocalDateTime time; 
     private String sessionBitmask;
 }

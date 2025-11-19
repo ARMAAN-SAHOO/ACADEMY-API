@@ -27,9 +27,9 @@ public class Batch {
 
     private String name;
 
-    private int fee;
+    private Integer fee;
 
-     private boolean deleted = false; 
+     private Boolean deleted = false; 
 
     @OneToMany(mappedBy = "batch")
     private List<Exam> exams;
