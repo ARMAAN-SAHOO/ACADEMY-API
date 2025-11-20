@@ -30,40 +30,43 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final TimeTableRepository timeTableRepository;
     private final AttendanceMapper attendanceMapper;
 
-    @Override
-    @Transactional
-    public AttendanceResponseDto markAttendance(AttendanceRequestDto attendanceRequestDto) {
+@Override
+@Transactional
+public AttendanceResponseDto markAttendance(AttendanceRequestDto attendanceRequestDto) {
 
-        Attendance attendance;
+    Enrollment enrollment = enrollmentRepository.findById(attendanceRequestDto.getEnrollmentId())
+            .orElseThrow(() -> new ResourceNotFoundException("Enrollment", attendanceRequestDto.getEnrollmentId()));
 
-        Enrollment enrollment = enrollmentRepository.findById(attendanceRequestDto.getEnrollmentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Enrollment", attendanceRequestDto.getEnrollmentId()));
+    Attendance attendance = attendanceRepository
+            .findByEnrollmentEnrollmentIdAndDate(attendanceRequestDto.getEnrollmentId(),
+                    attendanceRequestDto.getDate())
+            .orElse(null);
 
-        Attendance existing = attendanceRepository
-                .findByEnrollmentEnrollmentIdAndDate(attendanceRequestDto.getEnrollmentId(),
-                        attendanceRequestDto.getDate())
-                .orElse(null);
+    String bit = attendanceRequestDto.getPresence() ? "1" : "0";
 
-        if (existing != null) {
-            // update existing bitmask
-            existing.setSessionBitmask(attendanceRequestDto.getSessionBitmask());
-            attendance = existing;
-        } else {
-            // create new one
-            attendance = attendanceMapper.toEntity(attendanceRequestDto);
-            attendance.setEnrollment(enrollment);
-            LocalDate date = attendanceRequestDto.getDate();
-            DayOfWeek day = date.getDayOfWeek();
-            Long batchId = enrollment.getBatch().getBatchId();
+    if (attendance != null) {
+        // UPDATE EXISTING
+        attendance.setSessionBitmask(attendance.getSessionBitmask() + bit);
 
-            int totalSessions = timeTableRepository.countByBatchAndDayOfWeek(batchId, day);
-            attendance.setTotalSessions(totalSessions);
-        }
+    } else {
+        // CREATE NEW
+        attendance = attendanceMapper.toEntity(attendanceRequestDto);
+        attendance.setEnrollment(enrollment);
 
-        Attendance saved = attendanceRepository.save(attendance);
-        return attendanceMapper.toResponseDto(saved);
+        attendance.setSessionBitmask(bit);
 
+        // Calculate total sessions for the day (only once)
+        LocalDate date = attendanceRequestDto.getDate();
+        DayOfWeek day = date.getDayOfWeek();
+        Long batchId = enrollment.getBatch().getBatchId();
+        int totalSessions = timeTableRepository.countByBatchAndDayOfWeek(batchId, day);
+        attendance.setTotalSessions(totalSessions);
     }
+
+    Attendance saved = attendanceRepository.save(attendance);
+    return attendanceMapper.toResponseDto(saved);
+}
+
 
     @Override
     public List<AttendanceResponseDto> getAttendance(Long studentId) {

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.armaan.academyapi.entity.Batch;
+import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.TimeTable;
 
 import org.springframework.stereotype.Repository;
@@ -47,5 +48,8 @@ boolean existsByBatchAndDayOfWeekAndStartTimeLessThanAndEndTimeGreaterThanAndTim
     @Query("SELECT COUNT(t) FROM TimeTable t WHERE t.batch.batchId=:batchId"+
     " AND t.dayOfWeek = :dayOfWeek AND t.deleted = false")
     int countByBatchAndDayOfWeek(@Param("batchId") Long batchId,@Param("dayOfWeek") DayOfWeek dayOfWeek);
+
+    boolean existsByCourseTeacherAndDayOfWeekAndStartTimeLessThanAndEndTimeGreaterThan(CourseTeacher courseTeacher,
+            DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime);
 
 }

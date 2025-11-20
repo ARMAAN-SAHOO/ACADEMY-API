@@ -49,6 +49,17 @@ public class TimeTableServiceImpl implements TimeTableService {
             throw new IllegalArgumentException("Time slot overlaps with an existing timetable for this batch");
         }
 
+        boolean teacherConflict =
+    timeTableRepository.existsByCourseTeacherAndDayOfWeekAndStartTimeLessThanAndEndTimeGreaterThan(
+            courseTeacher,
+            timeTableRequestDto.getDayOfWeek(),
+            timeTableRequestDto.getStartTime(),
+            timeTableRequestDto.getEndTime()
+    );
+        if (teacherConflict) {
+    throw new IllegalArgumentException("Teacher is already assigned to another batch at this time");
+}
+
         TimeTable timeTable = timeTableMapper.toEntity(timeTableRequestDto);
         timeTable.setBatch(batch);
         timeTable.setCourseTeacher(courseTeacher);

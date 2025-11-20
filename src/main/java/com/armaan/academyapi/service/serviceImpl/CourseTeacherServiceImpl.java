@@ -52,7 +52,6 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
         courseTeacher.setTeacher(teacher);
         CourseTeacher savedCourseTeacher=courseTeacherRepository.save(courseTeacher);
         return courseTeacherMapper.toResponseDto(savedCourseTeacher);
-        
     }  
 
     @Override
@@ -74,6 +73,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService{
     public List<CourseTeacherResponseDto> getAllCourseTeachers() {
         return courseTeacherRepository.findAll().stream().map(courseTeacherMapper::toResponseDto).toList();
     }
+
 
     @Override
     public CourseTeacherResponseDto getCourseTeacherById(Long courseTeacherId) {

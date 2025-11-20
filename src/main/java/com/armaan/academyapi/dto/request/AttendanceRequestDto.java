@@ -11,5 +11,5 @@ public class AttendanceRequestDto {
 
      private Long enrollmentId;
     private LocalDate date; 
-    private String sessionBitmask;
+    private Boolean presence;
 }

@@ -34,6 +34,9 @@ public class ClassSessionServiceImpl implements ClassSessionService {
 
         ClassSession classSession=classSessionMapper.toEntity(classSessionRequestDto);
         classSession.setTimeTable(timeTable);
+
+        int index=sessionRepository.findLastSlotIndex(classSessionRequestDto.getTimetableId(), classSessionRequestDto.getDate());
+        classSession.setSlotIndex(index+1);
         ClassSession savedSession= sessionRepository.save(classSession);
         return classSessionMapper.toResponseDto(savedSession);
     }
