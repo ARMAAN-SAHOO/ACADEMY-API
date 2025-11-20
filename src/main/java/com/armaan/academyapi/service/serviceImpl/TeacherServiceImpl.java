@@ -10,10 +10,12 @@ import com.armaan.academyapi.dto.update.TeacherUpdateDto;
 import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Teacher;
 import com.armaan.academyapi.entity.TimeTable;
+import com.armaan.academyapi.entity.User;
 import com.armaan.academyapi.mapper.TeacherMapper;
 import com.armaan.academyapi.repository.CourseTeacherRepository;
 import com.armaan.academyapi.repository.TeacherRepository;
 import com.armaan.academyapi.repository.TimeTableRepository;
+import com.armaan.academyapi.repository.UserRepository;
 import com.armaan.academyapi.service.TeacherService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService {
 
+    private final UserRepository userRepository;
     private final TeacherRepository teacherRepository;
     private final CourseTeacherRepository courseTeacherRepository;
     private final TimeTableRepository timeTableRepository;
@@ -32,8 +35,14 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     @Transactional
     public TeacherResponseDto createTeacher(TeacherRequestDto teacherRequestDto) {
+
+        User user=userRepository.findById(teacherRequestDto.getUserId())
+        .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
+
         Teacher teacher=teacherMapper.toEntity(teacherRequestDto);
+        teacher.setUser(user);
         Teacher savedTeacher= teacherRepository.save(teacher);
+        
         return teacherMapper.toResponseDto(savedTeacher);
     }
 

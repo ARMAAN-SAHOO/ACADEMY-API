@@ -10,10 +10,14 @@ import com.armaan.academyapi.dto.update.StudentUpdateDto;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Parent;
 import com.armaan.academyapi.entity.Student;
+import com.armaan.academyapi.entity.User;
+import com.armaan.academyapi.exception.ResourceNotFoundException;
+import com.armaan.academyapi.mapper.ParentMapper;
 import com.armaan.academyapi.mapper.StudentMapper;
 import com.armaan.academyapi.repository.EnrollmentRepository;
 import com.armaan.academyapi.repository.ParentRepository;
 import com.armaan.academyapi.repository.StudentRepository;
+import com.armaan.academyapi.repository.UserRepository;
 import com.armaan.academyapi.service.StudentService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -27,16 +31,28 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final ParentRepository parentRepository;
+    private final UserRepository userRepository;
+    private final ParentMapper parentMapper;
     private final StudentMapper studentMapper;
 
     @Override
     @Transactional
     public StudentResponseDto createStudent(StudentRequestDto studentRequestDto) {
+    
 
-        Parent parent=parentRepository.findById(studentRequestDto.getParentId()).orElseThrow(()->new EntityNotFoundException());
+        User user = userRepository.findById(studentRequestDto.getUserId())
+        .orElseThrow(() -> new ResourceNotFoundException("User",studentRequestDto.getUserId()));
+
         Student student=studentMapper.toEntity(studentRequestDto);
-        student.setParent(parent);
+        student.setUser(user);
+
+        //PERSIST
+        Parent parent=parentMapper.toEntity(studentRequestDto.getParentRequestDto());
+        Parent savedParent=parentRepository.save(parent);
+        student.setParent(savedParent);
+
         Student savedStudent=studentRepository.save(student);
+
         return studentMapper.toResponseDto(savedStudent);
     }
 
@@ -56,15 +72,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
 @Transactional
 public StudentResponseDto updateStudent(Long studentId, StudentUpdateDto studentUpdateDto) {
+
     Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new EntityNotFoundException("Student not found"));
-
-    if (studentUpdateDto.getParentId() != null &&
-        !student.getParent().getParentId().equals(studentUpdateDto.getParentId())) {
-        Parent parent = parentRepository.findById(studentUpdateDto.getParentId())
-                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
-        student.setParent(parent);
-    }
 
     studentMapper.update(studentUpdateDto, student);
     return studentMapper.toResponseDto(student);

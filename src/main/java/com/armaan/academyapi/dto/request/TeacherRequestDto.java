@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class TeacherRequestDto {
 
-   // private Long userId;
+    private Long userId;
     private String fullName;
     private String contact;
 }
