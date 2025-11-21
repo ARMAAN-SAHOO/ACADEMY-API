@@ -58,6 +58,8 @@ public class AuthService {
     userAuthProvider.setUser(user);
 
     user.getAuthProviders().add(userAuthProvider);
+    
+    authProviderRepository.save(userAuthProvider);
     userRepository.save(user);
 
     return userMapper.toResponseDto(user);

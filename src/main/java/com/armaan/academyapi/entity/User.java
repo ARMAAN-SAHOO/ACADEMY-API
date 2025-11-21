@@ -14,8 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,13 +31,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Email
     @Column(unique = true)
     private String email;
 
-    
     private String password;
+
+    private String userName;
+
+    private String phoneNumber;
     
     private boolean deleted=false;
 

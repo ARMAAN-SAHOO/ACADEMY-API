@@ -31,10 +31,6 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
 
-    private String fullName;
-
-    private String phone;
-
      private boolean deleted = false; 
 
     @OneToOne
