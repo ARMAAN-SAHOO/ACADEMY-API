@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 public class ClassSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sessionId;
+    private Long classSessionId;
     
     private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "timetable_id")
+    @JoinColumn(name = "timeTable_id")
     private TimeTable timeTable;
     
     private Integer slotIndex; 

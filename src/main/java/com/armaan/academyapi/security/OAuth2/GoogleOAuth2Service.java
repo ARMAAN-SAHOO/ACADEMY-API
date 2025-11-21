@@ -2,11 +2,12 @@ package com.armaan.academyapi.security.OAuth2;
 
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.armaan.academyapi.dto.response.OAuthUserInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cdimascio.dotenv.Dotenv;
 
 @Service
 @RequiredArgsConstructor
@@ -15,13 +16,16 @@ public class GoogleOAuth2Service implements OAuth2Service {
     private final OkHttpClient client;
     private final ObjectMapper objectMapper;
 
-
-    private final Dotenv dotenv = Dotenv.load();
     private final String TOKEN_URL = "https://oauth2.googleapis.com/token";
     private final String USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
-    private final String clientId = dotenv.get("CLIENT_ID");
-    private final String clientSecret = dotenv.get("CLIENT_SECRET");
-    private final String redirectUri = dotenv.get("REDIRECT_URI");
+@Value("${google.client-id}")
+private String clientId;
+
+@Value("${google.client-secret}")
+private String clientSecret;
+
+@Value("${google.redirect-uri}")
+private String redirectUri;
 
     // ---------------- FETCH USER INFO ----------------
     @Override

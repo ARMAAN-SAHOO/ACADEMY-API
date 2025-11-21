@@ -10,10 +10,10 @@ import com.razorpay.RazorpayException;
 @Configuration
 public class RazorPayConfig {
 
-    @Value("${razorpay.key}")
+    @Value("${razorpay.key.id}")
     private String key;
 
-    @Value("${razorpay.secret}")
+    @Value("${razorpay.key.secret}")
     private String secret;
 
     @Bean

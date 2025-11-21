@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import com.armaan.academyapi.security.OAuth2.GoogleOAuth2Service;
 import com.armaan.academyapi.security.OAuth2.OAuth2Service;
 
+import okhttp3.OkHttpClient;
+
 @Configuration
 public class OAuthProviderConfig {
 
@@ -17,5 +19,10 @@ public class OAuthProviderConfig {
         return Map.of(
                 "GOOGLE", googleOAuth2Service
         );
+    }
+
+    @Bean
+    public OkHttpClient okHttpClient(){
+        return  new OkHttpClient();
     }
 }
