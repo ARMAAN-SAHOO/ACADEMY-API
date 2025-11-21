@@ -43,6 +43,10 @@ public class User {
     
     private boolean deleted=false;
 
+    private boolean localAccountEnabled;
+    private boolean passwordSet;
+
+
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role; // STUDENT, TEACHER, ADMIN
