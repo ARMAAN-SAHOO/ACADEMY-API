@@ -1,6 +1,7 @@
 package com.armaan.academyapi.entity;
 
 public enum EnrollmentStatus {
+    CREATED,
     ENROLLED,   // just enrolled, payment not done yet
     PAID,       // payment completed
     EXPIRED,    // payment window passed without payment

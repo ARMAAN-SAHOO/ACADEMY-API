@@ -51,7 +51,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollment.setBatch(batch);
         enrollment.setStudent(student);
         enrollment.setEnrolledOn(LocalDate.now());
-        enrollment.setStatus(EnrollmentStatus.ENROLLED);
+        enrollment.setStatus(EnrollmentStatus.CREATED);
         enrollment.setPaymetDue(LocalDate.now().plusDays(5));
         Enrollment savedEnrollment= enrollmentRepository.save(enrollment);
         return enrollmentMapper.toResponseDto(savedEnrollment);
