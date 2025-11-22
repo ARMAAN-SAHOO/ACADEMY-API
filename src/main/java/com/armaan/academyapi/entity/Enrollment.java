@@ -1,11 +1,15 @@
 package com.armaan.academyapi.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.armaan.academyapi.enums.EnrollmentStatus;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,15 +19,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-//brigde b/w batch and student
 @SQLDelete(sql = "UPDATE enrollment SET deleted=true where enrollment_id=?")
 @SQLRestriction("deleted=false")
 public class Enrollment {
@@ -31,26 +34,29 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long enrollmentId;
 
+    @Column(nullable = false)
     private boolean deleted = false; 
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
 
-    private LocalDate paymetDue;
+    @Column(nullable = false)
+    private LocalDate paymentDue;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id",nullable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "batch_id")
+    @JoinColumn(name = "batch_id",nullable = false)
     private Batch batch;
 
     @OneToMany(mappedBy = "enrollment")
-    private List<Payment> payments;
+    private List<Payment> payments=new ArrayList<>();
 
     @OneToMany(mappedBy = "enrollment")
-    private List<Attendance> attendances;
+    private List<Attendance> attendances=new ArrayList<>();
 
     private LocalDate enrolledOn;
 }

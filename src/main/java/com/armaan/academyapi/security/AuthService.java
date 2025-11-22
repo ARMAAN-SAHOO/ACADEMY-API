@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,7 @@ import com.armaan.academyapi.dto.request.LoginRequestDto;
 import com.armaan.academyapi.dto.request.UserRequestDto;
 import com.armaan.academyapi.dto.response.OAuthUserInfo;
 import com.armaan.academyapi.dto.response.UserResponseDto;
+import com.armaan.academyapi.entity.AuthProvider;
 import com.armaan.academyapi.entity.RefreshToken;
 import com.armaan.academyapi.entity.User;
 import com.armaan.academyapi.entity.UserAuthProvider;
@@ -53,7 +56,7 @@ public class AuthService {
     user.setPasswordSet(true);          // <--- NEW
 
     UserAuthProvider userAuthProvider = new UserAuthProvider();
-    userAuthProvider.setProvider("LOCAL");
+    userAuthProvider.setProvider(AuthProvider.LOCAL);
     userAuthProvider.setProviderUserId(user.getEmail());
     userAuthProvider.setUser(user);
 
@@ -69,33 +72,33 @@ public class AuthService {
     // ----------------------------------------------------
     // LOCAL LOGIN
     // ----------------------------------------------------
+
     public TokensResponse signIn(LoginRequestDto userDto) throws AuthenticationException {
-
+    // 1. Load user once (prevents duplicate DB queries)
     User user = userRepository.findByEmail(userDto.getEmail())
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new BadCredentialsException("Invalid email or password"));
 
+    // 2. If the user does NOT allow local login (OAuth-only account)
     if (!user.isLocalAccountEnabled()) {
-        String provider = user.getAuthProviders().stream()
-                .map(UserAuthProvider::getProvider)
-                .filter(p -> !"LOCAL".equals(p))
-                .findFirst()
-                .orElse("OAuth");
-
-        throw new RuntimeException(
-                "This account was created using " + provider +
-                ". Please login with " + provider + " or add a password in account settings."
+        // Do NOT reveal which provider they used
+        throw new AuthenticationServiceException(
+                "This account does not support password login. " +
+                "Please log in using your connected identity provider or add a password in settings."
         );
     }
 
-    authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                    userDto.getEmail(), userDto.getPassword()
-            )
-    );
+    // 3. Local login is allowed → attempt authentication
+    try {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword())
+        );
+    } catch (BadCredentialsException e) {
+        throw new BadCredentialsException("Invalid email or password");
+    }
 
+    // 4. Successful login → generate and return tokens
     return generateTokensForUser(user);
 }
-
 
     // ----------------------------------------------------
     // USED BY OAUTH2
@@ -146,7 +149,7 @@ public User loginOrRegister(OAuthUserInfo info) {
         User user = existingUser.get();
 
         UserAuthProvider provider = new UserAuthProvider();
-        provider.setProvider(info.getProvider());
+        provider.setProvider(AuthProvider.valueOf(info.getProvider().toUpperCase()));
         provider.setProviderUserId(info.getProviderUserId());
         provider.setUser(user);
 
@@ -166,7 +169,7 @@ public User loginOrRegister(OAuthUserInfo info) {
     userRepository.save(user);
 
     UserAuthProvider provider = new UserAuthProvider();
-    provider.setProvider(info.getProvider());
+     provider.setProvider(AuthProvider.valueOf(info.getProvider().toUpperCase()));
     provider.setProviderUserId(info.getProviderUserId());
     provider.setUser(user);
 

@@ -1,9 +1,6 @@
 package com.armaan.academyapi.entity;
 
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,12 +12,23 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-@AllArgsConstructor
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Builder
 @SQLDelete(sql = "UPDATE time_table SET deleted=true where timetable_id=?")
 @SQLRestriction("deleted=false")
 public class TimeTable {
@@ -29,25 +37,27 @@ public class TimeTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long timetableId;
 
-    @Builder.Default
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek dayOfWeek;
+
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
+
+    @Column(nullable=false)
     private boolean deleted = false; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id", nullable = false)
     private Batch batch;
 
-    // Which course is being taught
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) 
     @JoinColumn(name = "course_teacher_id", nullable = false)
     private CourseTeacher courseTeacher;
-
-    // Day of the week for recurring session (Mon, Tue, ...)
-    @Enumerated(EnumType.STRING)
-    private DayOfWeek dayOfWeek;
-
-    // Optional: start time and duration for reporting or UI
-    private LocalTime startTime;  // e.g., "10:00"
-    private LocalTime endTime;
 
     @OneToMany(mappedBy = "timeTable")
     private List<ClassSession> classSessions;

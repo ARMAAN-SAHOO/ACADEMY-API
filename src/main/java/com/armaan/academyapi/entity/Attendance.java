@@ -1,6 +1,8 @@
 package com.armaan.academyapi.entity;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +31,10 @@ public class Attendance {
     @JoinColumn(name = "enrollment_id", nullable = false)
     private Enrollment enrollment; // student + batch
 
-    private LocalDate date;             // day of attendance
+    @Column(nullable=false)
+    private LocalDate date;  
+    
+    // day of attendance
     private String sessionBitmask;      // e.g., "1011" for 4 slots (1 = present, 0 = absent)
 
     // totalSessions can be calculated in backend from timetable, optional to store

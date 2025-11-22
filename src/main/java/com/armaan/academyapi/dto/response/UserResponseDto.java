@@ -1,21 +1,21 @@
 package com.armaan.academyapi.dto.response;
 
-import com.armaan.academyapi.enums.Role;
+import java.time.LocalDate;
 
-import lombok.AllArgsConstructor;
+import com.armaan.academyapi.enums.Gender;
+import com.armaan.academyapi.enums.Role;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserResponseDto {
 
     private Long userId;
     private String email;
     private String userName;
     private String phoneNumber;
+    private Gender gender;
+    private LocalDate dateOfBirth;
+    private String address;
     private Role role;
 }

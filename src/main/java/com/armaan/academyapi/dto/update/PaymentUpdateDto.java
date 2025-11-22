@@ -3,10 +3,12 @@ package com.armaan.academyapi.dto.update;
 import java.time.LocalDate;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class PaymentUpdateDto {
 
      private Long enrollmentId;   // Link payment to a student enrollment

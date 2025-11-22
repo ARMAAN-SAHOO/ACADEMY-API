@@ -1,6 +1,7 @@
 package com.armaan.academyapi.entity;
 
-import java.time.LocalDateTime;
+import com.armaan.academyapi.enums.PaymentMode;
+import com.armaan.academyapi.enums.PaymentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,24 +12,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Payment {
+@AllArgsConstructor
+public class Payment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
 
+    @Column(nullable = false)
     private Double amount;
 
     @ManyToOne
@@ -37,27 +39,16 @@ public class Payment {
 
     private String razorpayOrderId;
     private String razorpayPaymentId;
+    private String razorpaySignature;
 
-    @Column(length = 10)
-    private String currency; // e.g., "INR"
+    @Column(nullable = false, length = 10)
+    @Builder.Default
+    private String currency = "INR";
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private PaymentStatus status;
 
-    private String paymentMode; // Card / UPI / Wallet / Netbanking
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @Enumerated(EnumType.STRING)
+    private PaymentMode paymentMode;
 }
-

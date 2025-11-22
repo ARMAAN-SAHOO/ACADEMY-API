@@ -5,7 +5,12 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.armaan.academyapi.enums.Qualification;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,9 +32,11 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teacherId;
 
-    private String fullName;
-    private String contact;
+    @Column(nullable =false)
+    @Enumerated(EnumType.STRING)
+    private Qualification qualification;
 
+    @Column(nullable = false)
      private boolean deleted = false; 
 
     @OneToOne

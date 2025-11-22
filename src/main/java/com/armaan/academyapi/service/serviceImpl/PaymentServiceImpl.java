@@ -10,9 +10,9 @@ import com.armaan.academyapi.dto.request.PaymentVerificationRequestDto;
 import com.armaan.academyapi.dto.response.OrderResponseDto;
 import com.armaan.academyapi.dto.response.PaymentResponseDto;
 import com.armaan.academyapi.entity.Enrollment;
-import com.armaan.academyapi.entity.EnrollmentStatus;
 import com.armaan.academyapi.entity.Payment;
-import com.armaan.academyapi.entity.PaymentStatus;
+import com.armaan.academyapi.enums.EnrollmentStatus;
+import com.armaan.academyapi.enums.PaymentStatus;
 import com.armaan.academyapi.exception.BusinessException;
 import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.PaymentMapper;
@@ -68,7 +68,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .amount((double) amount)
                 .currency("INR")
                 .status(PaymentStatus.CREATED)
-                .createdAt(LocalDateTime.now())
                 .build();
 
         paymentRepository.save(payment);
@@ -92,7 +91,6 @@ public PaymentResponseDto confirmPayment(PaymentVerificationRequestDto dto) {
 
     if (!valid) {
         payment.setStatus(PaymentStatus.FAILED);
-        payment.setUpdatedAt(LocalDateTime.now());
         paymentRepository.save(payment);
         throw new BusinessException("Invalid payment signature.");
     }
@@ -103,7 +101,6 @@ public PaymentResponseDto confirmPayment(PaymentVerificationRequestDto dto) {
 
     payment.setRazorpayPaymentId(dto.getRazorpayPaymentId());
     payment.setStatus(PaymentStatus.CAPTURED);
-    payment.setUpdatedAt(LocalDateTime.now());
     paymentRepository.save(payment);
 
     // mark enrollment as PAID
@@ -115,7 +112,6 @@ public PaymentResponseDto confirmPayment(PaymentVerificationRequestDto dto) {
     paymentRepository.findByEnrollmentAndStatus(enrollment, PaymentStatus.CREATED)
             .forEach(p -> {
                 p.setStatus(PaymentStatus.CANCELLED);
-                p.setUpdatedAt(LocalDateTime.now());
             });
     paymentRepository.flush();
 

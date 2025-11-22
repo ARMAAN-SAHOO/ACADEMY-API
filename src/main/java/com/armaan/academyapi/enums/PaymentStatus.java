@@ -1,4 +1,4 @@
-package com.armaan.academyapi.entity;
+package com.armaan.academyapi.enums;
 
 public enum PaymentStatus {
     CREATED,        // Order created, not paid yet

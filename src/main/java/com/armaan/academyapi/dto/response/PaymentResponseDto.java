@@ -1,24 +1,21 @@
 package com.armaan.academyapi.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-import com.armaan.academyapi.entity.PaymentStatus;
+import com.armaan.academyapi.enums.PaymentMode;
+import com.armaan.academyapi.enums.PaymentStatus;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter
+@Setter
 public class PaymentResponseDto {
     private Long paymentId;
     private Double amount;
     private String currency;
     private PaymentStatus status;
-    private String paymentMode;
+    private PaymentMode paymentMode;
     private String razorpayOrderId;
     private String razorpayPaymentId;
     private Long enrollmentId;

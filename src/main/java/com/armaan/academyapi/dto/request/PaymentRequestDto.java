@@ -1,21 +1,37 @@
 package com.armaan.academyapi.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import com.armaan.academyapi.enums.PaymentMode;
+import com.armaan.academyapi.enums.PaymentStatus;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PaymentRequestDto {
+
     private String razorpayOrderId;
     private String razorpayPaymentId;
-    private String paymentMode;   // UPI, Card, NetBanking, etc.
+
+    @NotNull
+    @Positive
     private Double amount;
-    private String currency;      // INR
-    private Long enrollmentId;    // link to student enrollment
-    //private Long batchId;         // optional, if paying for a batch
-    private String status;        // SUCCESS, FAILED, PENDING
+
+    @NotBlank
+    private String currency = "INR";
+
+    @NotNull
+    private Long enrollmentId;
+
+    @NotNull
+    private PaymentStatus status;
+
+    @NotNull
+    private PaymentMode paymentMode; 
 }

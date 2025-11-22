@@ -1,10 +1,20 @@
 package com.armaan.academyapi.dto.request;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class PaymentVerificationRequestDto {
-    private String razorpayOrderId;
-    private String razorpayPaymentId;
-    private String signature;
+@NotBlank
+private String razorpayOrderId;
+
+@NotBlank
+private String razorpayPaymentId;
+
+@NotBlank
+private String signature;
 }

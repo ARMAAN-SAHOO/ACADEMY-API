@@ -2,13 +2,19 @@ package com.armaan.academyapi.dto.update;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ClassSessionUpdateDto {
+
+    @NotNull
     private Long timetableId;   // which timetable/course/batch this session belongs to
-    private LocalDate date;     // date of the session
-    private Integer slotIndex;  // slot of the day
+
+    @NotNull
+    private LocalDate date;     
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,14 +30,15 @@ public class CourseTeacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseTeacherId;
 
+    @Column(nullable = false)
      private boolean deleted = false; 
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id",nullable = false)
     private Teacher teacher;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id",nullable = false)
     private Course course;
 
     @OneToMany(mappedBy="courseTeacher")

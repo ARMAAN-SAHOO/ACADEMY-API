@@ -16,40 +16,40 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @SQLDelete(sql = "UPDATE batch SET deleted = true WHERE batch_id = ?")
 @SQLRestriction("deleted=false")
 public class Batch {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "batch_id")
-    private Long batchId;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "batch_id")
+        private Long batchId;
 
-    @NotBlank
-    @Size(max = 100)
-    @Column(nullable = false, unique = true)
-    private String name;
+        @NotBlank
+        @Size(max = 100)
+        @Column(nullable = false, unique = true)
+        private String name;
 
-    @NotNull
-    @Min(0)
-    @Column(nullable = false)
-    private Integer fee;
+        @NotNull
+        @Min(0)
+        @Column(nullable = false)
+        private Integer fee;
 
-    @Column(nullable = false)
-    private Boolean deleted = false;
+        @Column(nullable = false)
+        private Boolean deleted = false;
 
-    @OneToMany(mappedBy = "batch")
-    private List<Exam> exams = new ArrayList<>();
+        @OneToMany(mappedBy = "batch")
+        private List<Exam> exams = new ArrayList<>();
 
-    @OneToMany(mappedBy = "batch")
-    private List<TimeTable> timeTables = new ArrayList<>();
+        @OneToMany(mappedBy = "batch")
+        private List<TimeTable> timeTables = new ArrayList<>();
 
-}
+    }

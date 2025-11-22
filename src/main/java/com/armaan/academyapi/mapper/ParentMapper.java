@@ -6,15 +6,15 @@ import org.mapstruct.ReportingPolicy;
 
 import com.armaan.academyapi.dto.request.ParentRequestDto;
 import com.armaan.academyapi.dto.response.ParentResponseDto;
-import com.armaan.academyapi.dto.update.ParentUpdateDto;
 import com.armaan.academyapi.entity.Parent;
 
 @Mapper(
     componentModel = "spring",
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-    unmappedTargetPolicy =ReportingPolicy.IGNORE
-
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface ParentMapper extends BaseMapper<Parent,ParentRequestDto,ParentResponseDto,ParentUpdateDto>{
+public interface ParentMapper {
 
+    Parent toEntity(ParentRequestDto dto);
+    ParentResponseDto toResponseDto(Parent entity);
 }

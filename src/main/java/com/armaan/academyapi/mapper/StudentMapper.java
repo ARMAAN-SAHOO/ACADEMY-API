@@ -11,11 +11,11 @@ import com.armaan.academyapi.entity.Student;
 
 @Mapper(
     componentModel = "spring",
+    uses = {ParentMapper.class},
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-    unmappedTargetPolicy =ReportingPolicy.IGNORE/*,
-    uses = {UserMapper.class,ParentMapper.class}*/
-
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface StudentMapper extends BaseMapper<Student,StudentRequestDto,StudentResponseDto,StudentUpdateDto>{
 
+    
 }

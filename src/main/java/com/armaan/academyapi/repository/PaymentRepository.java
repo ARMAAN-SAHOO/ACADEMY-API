@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.armaan.academyapi.dto.response.PaymentResponseDto;
 import com.armaan.academyapi.entity.Enrollment;
 import com.armaan.academyapi.entity.Payment;
-import com.armaan.academyapi.entity.PaymentStatus;
+import com.armaan.academyapi.enums.PaymentStatus;
 
 import org.springframework.stereotype.Repository;
 @Repository

@@ -88,22 +88,6 @@ public class TimeTableServiceImpl implements TimeTableService {
         TimeTable timeTable = timeTableRepository.findById(timetableId)
                 .orElseThrow(() -> new EntityNotFoundException("TimeTable not found"));
 
-        // Check if batch changed
-        if (timeTableUpdateDto.getBatchId() != null
-                && !timeTable.getBatch().getBatchId().equals(timeTableUpdateDto.getBatchId())) {
-            Batch newBatch = batchRepository.findById(timeTableUpdateDto.getBatchId())
-                    .orElseThrow(() -> new EntityNotFoundException("Batch not found"));
-            timeTable.setBatch(newBatch);
-        }
-
-        // Check if courseTeacher changed
-        if (timeTableUpdateDto.getCourseteacherId() != null && !timeTable.getCourseTeacher().getCourseTeacherId()
-                .equals(timeTableUpdateDto.getCourseteacherId())) {
-            CourseTeacher newCT = courseTeacherRepository.findById(timeTableUpdateDto.getCourseteacherId())
-                    .orElseThrow(() -> new EntityNotFoundException("CourseTeacher not found"));
-            timeTable.setCourseTeacher(newCT);
-        }
-
         DayOfWeek day = timeTableUpdateDto.getDayOfWeek() != null ? timeTableUpdateDto.getDayOfWeek()
                 : timeTable.getDayOfWeek();
         LocalTime start = timeTableUpdateDto.getStartTime() != null ? timeTableUpdateDto.getStartTime()

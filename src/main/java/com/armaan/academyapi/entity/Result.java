@@ -2,6 +2,7 @@ package com.armaan.academyapi.entity;
 
 import lombok.Builder;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,16 +24,14 @@ public class Result {
     private Long resultId;
 
     @ManyToOne
-    @JoinColumn(name = "exam_id")
+    @JoinColumn(name = "exam_id",nullable = false)
     private Exam exam;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id",nullable = false)
     private Student student;
 
+    @Column(nullable = false)
     private Integer marksObtained;
-
-    // percentage 
-    //no of fail
     
 }
