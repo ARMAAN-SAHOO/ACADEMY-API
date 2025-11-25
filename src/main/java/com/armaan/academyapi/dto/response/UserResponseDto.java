@@ -3,9 +3,8 @@ package com.armaan.academyapi.dto.response;
 import java.time.LocalDate;
 
 import com.armaan.academyapi.enums.Gender;
-import com.armaan.academyapi.enums.Role;
-import lombok.Getter;
 
+import lombok.Getter;
 
 @Getter
 public class UserResponseDto {
@@ -17,5 +16,4 @@ public class UserResponseDto {
     private Gender gender;
     private LocalDate dateOfBirth;
     private String address;
-    private Role role;
 }

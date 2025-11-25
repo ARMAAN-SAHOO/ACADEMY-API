@@ -41,15 +41,12 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String userName;
 
-    @Column(nullable = false)
     @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Invalid phone number")
     private String phoneNumber;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(nullable = false)
     private LocalDate dateOfBirth;
 
     private String address;

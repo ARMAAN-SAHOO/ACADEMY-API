@@ -3,7 +3,6 @@ package com.armaan.academyapi.security;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,15 +12,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.armaan.academyapi.dto.request.LoginRequestDto;
-import com.armaan.academyapi.dto.request.UserRequestDto;
+import com.armaan.academyapi.dto.request.SignUpRequestDto;
 import com.armaan.academyapi.dto.response.OAuthUserInfo;
-import com.armaan.academyapi.dto.response.UserResponseDto;
+import com.armaan.academyapi.dto.response.SignUpResponseDto;
+import com.armaan.academyapi.dto.response.TokensResponse;
 import com.armaan.academyapi.entity.AuthProvider;
 import com.armaan.academyapi.entity.RefreshToken;
 import com.armaan.academyapi.entity.User;
 import com.armaan.academyapi.entity.UserAuthProvider;
 import com.armaan.academyapi.enums.Role;
-import com.armaan.academyapi.mapper.UserMapper;
 import com.armaan.academyapi.repository.RefreshTokenRepository;
 import com.armaan.academyapi.repository.UserAuthProviderRepository;
 import com.armaan.academyapi.repository.UserRepository;
@@ -38,20 +37,20 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
 
     // ----------------------------------------------------
     // LOCAL REGISTER
     // ----------------------------------------------------
-    public UserResponseDto signUp(UserRequestDto userDto) {
+    public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
 
-    if (userRepository.existsByEmail(userDto.getEmail())) {
+    if (userRepository.existsByEmail(signUpRequestDto.getEmail())) {
         throw new RuntimeException("User already exists");
     }
-
-    User user = userMapper.toEntity(userDto);
-    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+    User user=new User();
+    user.setEmail(signUpRequestDto.getEmail());
+    user.setUserName(signUpRequestDto.getUserName());
+    user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
     user.setLocalAccountEnabled(true);  // <--- NEW
     user.setPasswordSet(true);          // <--- NEW
 
@@ -65,7 +64,12 @@ public class AuthService {
     authProviderRepository.save(userAuthProvider);
     userRepository.save(user);
 
-    return userMapper.toResponseDto(user);
+    SignUpResponseDto signUpResponseDto=new SignUpResponseDto();
+    signUpResponseDto.setEmail(user.getEmail());
+    signUpResponseDto.setUserName(user.getUserName());
+    signUpResponseDto.setUserId(user.getId());
+
+    return signUpResponseDto;
 }
 
 
@@ -136,7 +140,7 @@ public User loginOrRegister(OAuthUserInfo info) {
     // CASE 1 — Provider already linked
     Optional<UserAuthProvider> existingProvider =
             authProviderRepository.findByProviderAndProviderUserId(
-                    info.getProvider(), info.getProviderUserId()
+                    AuthProvider.valueOf(info.getProvider().toUpperCase()), info.getProviderUserId()
             );
 
     if (existingProvider.isPresent()) {
@@ -209,9 +213,4 @@ public User loginOrRegister(OAuthUserInfo info) {
         List<RefreshToken> tokens = refreshTokenRepository.findAllByUser(user);
         refreshTokenRepository.deleteAll(tokens);
     }
-
-    // ----------------------------------------------------
-    // TOKEN DTO
-    // ----------------------------------------------------
-    public record TokensResponse(String accessToken, String refreshToken) {}
 }
