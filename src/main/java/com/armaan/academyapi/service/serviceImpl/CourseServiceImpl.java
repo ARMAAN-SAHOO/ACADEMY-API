@@ -1,6 +1,7 @@
 package com.armaan.academyapi.service.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.armaan.academyapi.entity.CourseTeacher;
 import com.armaan.academyapi.entity.Exam;
 import com.armaan.academyapi.entity.TimeTable;
 import com.armaan.academyapi.enums.ExamStatus;
+import com.armaan.academyapi.exception.BusinessException;
 import com.armaan.academyapi.exception.ResourceNotFoundException;
 import com.armaan.academyapi.mapper.CourseMapper;
 import com.armaan.academyapi.repository.CourseRepository;
@@ -33,14 +35,37 @@ public class CourseServiceImpl implements CourseService {
     private final TimeTableRepository timeTableRepository;
     private final ExamRepository examRepository;
 
-    @Override
-    @Transactional
-    public CourseResponseDto createCourse(CourseRequestDto courseRequestDto) {
-        
-        Course course=courseMapper.toEntity(courseRequestDto);
-        courseRepository.save(course);
-        return courseMapper.toResponseDto(course);
+@Override
+@Transactional
+public CourseResponseDto createCourse(CourseRequestDto request) {
+
+    // Step 1: Look for existing course, including soft-deleted
+    Optional<Course> existing = courseRepository.findByNameIncludingDeleted(request.getName());
+
+    if (existing.isPresent()) {
+        Course course = existing.get();
+
+        if (course.isDeleted()) {
+            // Step 2: Restore soft-deleted course
+            course.setDeleted(false);
+            course.setDescription(request.getDescription());
+            Course savedCourse = courseRepository.save(course);
+            return courseMapper.toResponseDto(savedCourse);
+        } else {
+            // Step 3: Active course exists → duplicate
+            throw new BusinessException("Course already exists: " + request.getName());
+        }
     }
+
+    // Step 4: No existing course → create new
+    Course newCourse = new Course();
+    newCourse.setName(request.getName());
+    newCourse.setDescription(request.getDescription());
+    newCourse.setDeleted(false);
+    Course savedCourse = courseRepository.save(newCourse);
+    return courseMapper.toResponseDto(savedCourse);
+}
+
 
     @Override
     public CourseResponseDto getCourseById(Long courseId) {

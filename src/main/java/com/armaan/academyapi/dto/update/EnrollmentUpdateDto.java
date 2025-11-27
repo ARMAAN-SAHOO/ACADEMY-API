@@ -16,8 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EnrollmentUpdateDto {
 
-    @NotNull
-    private Long enrollmentId;
 
     @NotNull
     @Enumerated(EnumType.STRING)

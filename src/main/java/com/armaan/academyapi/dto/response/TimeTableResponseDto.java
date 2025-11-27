@@ -4,8 +4,10 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class TimeTableResponseDto {
 
     private Long timetableId;  

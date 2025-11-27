@@ -157,4 +157,49 @@ public class JwtUtil {
     public long getRefreshExpiration() {
         return refreshExpiration;
     }
+
+    public String generateTeacherInviteToken(String email) {
+    long inviteExpiration = 24 * 60 * 60 * 1000; // 24 hours, adjust as needed
+
+    return Jwts.builder()
+            .setSubject(email)                 // the teacher’s email
+            .claim("type", "invite")           // token type
+            .claim("role", "TEACHER")          // role embedded
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + inviteExpiration))
+            .setId(UUID.randomUUID().toString()) // optional unique ID
+            .signWith(getAccessKey(), SignatureAlgorithm.HS256)
+            .compact();
+}
+public String validateTeacherInviteToken(String token) {
+    try {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getAccessKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        String type = claims.get("type", String.class);
+        String role = claims.get("role", String.class);
+        Date expiry = claims.getExpiration();
+        String email = claims.getSubject();
+
+        if (!"invite".equals(type)) {
+            throw new RuntimeException("Invalid token type");
+        }
+
+        if (!"TEACHER".equals(role)) {
+            throw new RuntimeException("Invalid role");
+        }
+
+        if (expiry.before(new Date())) {
+            throw new RuntimeException("Token expired");
+        }
+
+        return email; // return email if token is valid
+    } catch (Exception e) {
+        throw new RuntimeException("Invalid or tampered invite token");
+    }
+}
+
 }

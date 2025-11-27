@@ -1,5 +1,6 @@
 package com.armaan.academyapi.service.serviceImpl;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -49,9 +50,14 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public List<BatchResponseDto> getAllBatches() {
-        return batchRepository.findAll().stream().map(batch->batchMapper.toResponseDto(batch)).toList();
-    }
+public List<BatchResponseDto> getAllBatches() {
+    List<Batch> batches = batchRepository.findAll();
+    batches.forEach(batch -> System.out.println(batch)); // Add logging here to inspect batch
+    return batches.stream()
+                  .map(batch -> batchMapper.toResponseDto(batch))
+                  .collect(Collectors.toList());
+}
+
 
     @Override
     @Transactional

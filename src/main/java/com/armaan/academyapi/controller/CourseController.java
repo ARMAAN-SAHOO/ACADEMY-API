@@ -1,10 +1,12 @@
 package com.armaan.academyapi.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +18,8 @@ import com.armaan.academyapi.dto.response.CourseResponseDto;
 import com.armaan.academyapi.dto.update.CourseUpdateDto;
 import com.armaan.academyapi.service.CourseService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
@@ -27,12 +29,15 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<CourseResponseDto> create(@RequestBody CourseRequestDto courseRequestDto) {
-        return ResponseEntity.status(201).body(courseService.createCourse(courseRequestDto));
+    public ResponseEntity<CourseResponseDto> create(@Valid  @RequestBody CourseRequestDto courseRequestDto) {
+        CourseResponseDto created=courseService.createCourse(courseRequestDto);
+        return ResponseEntity
+                .created(URI.create("/api/courses/" + created.getCourseId()))
+                .body(created);
     }
 
-    @PutMapping("/{id}")
-    public  ResponseEntity<CourseResponseDto> update(@PathVariable Long id, @RequestBody CourseUpdateDto courseUpdateDto) {
+    @PatchMapping("/{id}")
+    public  ResponseEntity<CourseResponseDto> update(@PathVariable Long id,@Valid  @RequestBody CourseUpdateDto courseUpdateDto) {
         return ResponseEntity.ok(courseService.updateCourse(id, courseUpdateDto));
     }
 

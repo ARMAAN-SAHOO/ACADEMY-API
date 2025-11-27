@@ -12,8 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AttendanceUpdateDto {
     @NotNull
-    private Long attendanceId;
-    @NotNull
     private LocalDateTime time; 
     @NotNull
     private Boolean presence;

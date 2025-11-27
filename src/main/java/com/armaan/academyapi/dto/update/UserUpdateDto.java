@@ -18,10 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserUpdateDto {
-
-    @NotNull
-    private Long userId;
-
+    
     @Size(max = 50)
     private String userName;
 

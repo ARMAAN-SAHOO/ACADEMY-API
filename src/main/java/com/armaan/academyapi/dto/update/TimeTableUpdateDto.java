@@ -16,9 +16,6 @@ import lombok.Setter;
 public class TimeTableUpdateDto {
 
     @NotNull
-    private Long timeTableId;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 

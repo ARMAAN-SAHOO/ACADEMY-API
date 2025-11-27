@@ -8,7 +8,7 @@ import com.armaan.academyapi.dto.update.ExamUpdateDto;
 
 public interface ExamService {
     ExamResponseDto createExam(ExamRequestDto examRequestDto);
-    ExamResponseDto updateExam(ExamUpdateDto examUpdateDto);
+    ExamResponseDto updateExam(Long examId,ExamUpdateDto examUpdateDto);
     ExamResponseDto getExamById(Long examId);
     List<ExamResponseDto> getExamsByBatch(Long batchId);
     void deleteExam(Long examId);

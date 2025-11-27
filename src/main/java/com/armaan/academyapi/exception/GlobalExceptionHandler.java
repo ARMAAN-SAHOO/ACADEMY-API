@@ -2,8 +2,11 @@ package com.armaan.academyapi.exception;
 
 import java.time.LocalDateTime;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -90,5 +93,44 @@ public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolati
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 }
+
+@ExceptionHandler(AuthenticationException.class)
+public ResponseEntity<ErrorResponse> handleAuthenticationErrors(AuthenticationException ex,WebRequest request)
+{
+    ErrorResponse response=ErrorResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.UNAUTHORIZED.value())
+                        .error("Unauthorized")
+                        .message(ex.getMessage())
+                        .path(request.getDescription(false).replace("uri=", ""))
+                        .build();
+    
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+}
+
+@ExceptionHandler(DataIntegrityViolationException.class)
+public ResponseEntity<ErrorResponse> handleDuplicate(DataIntegrityViolationException ex, WebRequest request) {
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(ErrorResponse.builder()
+                    .timestamp(LocalDateTime.now())
+                    .status(HttpStatus.CONFLICT.value())
+                    .error("Database Error")
+                    .message("Duplicate or invalid data")
+                    .path(request.getDescription(false).replace("uri=", ""))
+                    .build());
+}
+
+@ExceptionHandler(AccessDeniedException.class)
+public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(ErrorResponse.builder()
+                    .timestamp(LocalDateTime.now())
+                    .status(HttpStatus.FORBIDDEN.value())
+                    .error("Access Denied")
+                    .message("You don't have permission to access this resource")
+                    .path(request.getDescription(false).replace("uri=", ""))
+                    .build());
+}
+
 
 }

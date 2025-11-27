@@ -16,7 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ParentUpdateDto {
 
-    private Long parentId;
 
     @NotNull
     @Size(max = 100)

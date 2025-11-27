@@ -14,9 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TeacherUpdateDto {
 
-    private Long teacherId;
-
-
     @NotNull
     @Enumerated(EnumType.STRING)
     private Qualification qualification;

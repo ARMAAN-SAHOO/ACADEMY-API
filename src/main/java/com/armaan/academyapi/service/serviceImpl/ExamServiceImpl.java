@@ -103,9 +103,9 @@ if (conflict) {
     }
 
     @Override
-    public ExamResponseDto updateExam(ExamUpdateDto examUpdateDto) {
-        Exam exam =examRepository.findById(examUpdateDto.getExamId())
-                .orElseThrow(() -> new ResourceNotFoundException("Exam",examUpdateDto.getExamId()));
+    public ExamResponseDto updateExam(Long examId,ExamUpdateDto examUpdateDto) {
+        Exam exam =examRepository.findById(examId)
+                .orElseThrow(() -> new ResourceNotFoundException("Exam",examId));
 
         examMapper.update(examUpdateDto, exam);
         return examMapper.toResponseDto(exam);

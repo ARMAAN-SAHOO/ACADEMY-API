@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import com.armaan.academyapi.enums.EnrollmentStatus;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class EnrollmentResponseDto {
 
     private Long enrollmentId;

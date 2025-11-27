@@ -50,6 +50,7 @@ public class AuthService {
     User user=new User();
     user.setEmail(signUpRequestDto.getEmail());
     user.setUserName(signUpRequestDto.getUserName());
+    user.setRole(Role.STUDENT);
     user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
     user.setLocalAccountEnabled(true);  // <--- NEW
     user.setPasswordSet(true);          // <--- NEW
@@ -201,6 +202,38 @@ public User loginOrRegister(OAuthUserInfo info) {
 
         return generateTokensForUser(user);
     }
+
+@Transactional
+public TokensResponse signupTeacherWithInviteJwt(String inviteToken, String password) {
+    // Validate token
+    String email = jwtUtil.validateTeacherInviteToken(inviteToken);
+
+    if (userRepository.existsByEmail(email)) {
+        throw new RuntimeException("User already exists");
+    }
+
+    // Create teacher account
+    User user = new User();
+    user.setEmail(email);
+    user.setRole(Role.TEACHER);
+    user.setUserName(email.split("@")[0]);
+    user.setPassword(passwordEncoder.encode(password));
+    user.setLocalAccountEnabled(true);
+    user.setPasswordSet(true);
+
+    UserAuthProvider authProvider = new UserAuthProvider();
+    authProvider.setProvider(AuthProvider.LOCAL);
+    authProvider.setProviderUserId(email);
+    authProvider.setUser(user);
+    user.getAuthProviders().add(authProvider);
+
+    userRepository.save(user);
+    authProviderRepository.save(authProvider);
+
+    return generateTokensForUser(user);
+}
+
+
 
     // ----------------------------------------------------
     // LOGOUT ALL DEVICES

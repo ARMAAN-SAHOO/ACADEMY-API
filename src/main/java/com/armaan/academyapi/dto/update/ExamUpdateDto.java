@@ -16,10 +16,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ExamUpdateDto {
-
-    @NotNull
-    private Long examId;
-    
     @NotBlank
     private String name;
 
